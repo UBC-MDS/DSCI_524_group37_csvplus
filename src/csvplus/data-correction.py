@@ -30,7 +30,7 @@ def resolve_string_value(df, column_name, resolved_names, threshold):
     ...     "company_name": ["Google", "Google Inc.", "Gogle", "Microsoftt", "Micro-soft"],
     ...     "location": ["Mt. view", "Mt. view", "Mt. view", "Redmond", , "Redmond"]
     ... })
-    >>> consolidate_data(data, "company_name", ["Google", "Microsoft"], 80)
+    >>> resolve_string_value(data, "company_name", ["Google", "Microsoft"], 80)
     >>> data
        company_name  location
     1   Google       Mt. view
