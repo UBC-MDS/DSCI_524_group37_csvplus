@@ -1,106 +1,119 @@
 # Contributing
 
-Contributions of all kinds are welcome here, and they are greatly appreciated!
-Every little bit helps, and credit will always be given.
+Thank you for contributing to **csvplus**!  
+This project is developed collaboratively by **Group37** as part of a DSCI 524 course on package development project.
 
-## Example Contributions
+This document outlines how our team works together, including our workflow, contribution process, and coding standards.
 
-You can contribute in many ways, for example:
+---
 
-* [Report bugs](#report-bugs)
-* [Fix Bugs](#fix-bugs)
-* [Implement Features](#implement-features)
-* [Write Documentation](#write-documentation)
-* [Submit Feedback](#submit-feedback)
+## How We Work
 
-### Report Bugs
+We follow a **GitHub Flow–based workflow**:
 
-Report bugs at https://github.com//csvplus/issues.
+- The `main` branch is always kept in a working state
+- No direct commits are made to `main`
+- All changes are made through feature branches and Pull Requests (PRs)
+- Tasks are tracked using GitHub Issues and the Project Board
+- Work is organized into milestones
 
-**If you are reporting a bug, please follow the template guidelines. The more
-detailed your report, the easier and thus faster we can help you.**
+---
 
-### Fix Bugs
+## Types of Contributions
 
-Look through the GitHub issues for bugs. Anything labelled with `bug` and
-`help wanted` is open to whoever wants to implement it. When you decide to work on such
-an issue, please assign yourself to it and add a comment that you'll be working on that,
-too. If you see another issue without the `help wanted` label, just post a comment, the
-maintainers are usually happy for any support that they can get.
+Team members may contribute by:
 
-### Implement Features
+- Reporting or fixing bugs
+- Implementing new features
+- Improving documentation (README, docstrings, examples)
+- Writing or updating tests
+- Providing feedback through GitHub Issues
 
-Look through the GitHub issues for features. Anything labelled with
-`enhancement` and `help wanted` is open to whoever wants to implement it. As
-for [fixing bugs](#fix-bugs), please assign yourself to the issue and add a comment that
-you'll be working on that, too. If another enhancement catches your fancy, but it
-doesn't have the `help wanted` label, just post a comment, the maintainers are usually
-happy for any support that they can get.
+---
 
-### Write Documentation
+## Issues and Task Management
 
-csvplus could always use more documentation, whether as
-part of the official documentation, in docstrings, or even on the web in blog
-posts, articles, and such. Just
-[open an issue](https://github.com//csvplus/issues)
-to let us know what you will be working on so that we can provide you with guidance.
+- Each task should be created as a **GitHub Issue**
+- Issues should be assigned to one team member
+- Issues should be linked to the appropriate **milestone**
+- Progress is tracked on the GitHub Project Board
 
-### Submit Feedback
+Before starting work on an issue, assign yourself to it and leave a short comment indicating you are working on it.
 
-The best way to send feedback is to file an issue at
-https://github.com//csvplus/issues. If your feedback fits the format of one of
-the issue templates, please use that. Remember that this is a volunteer-driven
-project and everybody has limited time.
+---
 
 ## Get Started!
 
 Ready to contribute? Here's how to set up csvplus for
 local development.
 
-1. Fork the https://github.com//csvplus
-   repository on GitHub.
-2. Clone your fork locally (*if you want to work locally*)
+1. Clone the repository:
 
     ```shell
-    git clone git@github.com:your_name_here/csvplus.git
+    git clone git@github.com:UBC-MDS/DSCI_524_group37_csvplus.git
     ```
 
-3. [Install hatch](https://hatch.pypa.io/latest/install/).
+2. Install dependencies using Hatch:
 
-4. Create a branch for local development using the default branch (typically `main`) as a starting point. Use `fix` or `feat` as a prefix for your branch name.
+   ```shell
+   pip install hatch
+   ```
+
+3. Create a new branch from main.
+Use clear prefixes such as feat/, fix/, or docs/.
 
     ```shell
     git checkout main
-    git checkout -b fix-name-of-your-bugfix
+    git pull
+    git checkout -b feat-short-description
+
     ```
 
-    Now you can make your changes locally.
+4. Make your changes locally.
 
-5. When you're done making changes, apply the quality assurance tools and check
-   that your changes pass our test suite. This is all included with tox
+## Coding and Documentation Standards
 
-    ```shell
+- Follow Python best practices (PEP8 where applicable)
+- Use clear, descriptive variable and function names
+- All public functions must include docstrings
+- New functionality should include tests when appropriate
+- Keep commits small and focused
+
+## Running Tests
+
+Before submitting a Pull Request, ensure all tests pass:
+
+   ```shell
     hatch run test:run
-    ```
+   ```
 
-6. Commit your changes and push your branch to GitHub. Please use [semantic
-   commit messages](https://www.conventionalcommits.org/).
+## Commit Messages
 
-    ```shell
-    git add .
-    git commit -m "fix: summarize your changes"
-    git push -u origin fix-name-of-your-bugfix
-    ```
+We use semantic / conventional commit messages, for example:
 
-7. Open the link displayed in the message when pushing your new branch in order
-   to submit a pull request.
+- `feat: add csv column validation helper`
+- `fix: handle empty csv files`
+- `docs: update README with usage example`
 
-### Pull Request Guidelines
+## Pull Request Guidelines
 
-Before you submit a pull request, check that it meets these guidelines:
+When opening a Pull Request:
 
-1. The pull request should include tests.
-2. If the pull request adds functionality, the docs should be updated. Put your
-   new functionality into a function with a docstring.
-3. Your pull request will automatically be checked by the full test suite.
-   It needs to pass all of them before it can be considered for merging.
+- Link the PR to the related GitHub Issue
+- Clearly describe what was changed and why
+- Ensure tests pass
+- Ensure documentation is updated if functionality changes
+- Request at least one team member review before merging
+- Only merge after the PR has been reviewed and approved.
+
+## Communication
+
+- Major decisions are discussed during scheduled team meetings
+- GitHub Issues are used for technical discussion, questions, and blockers
+- The Project Board is the source of truth for task status
+
+## Decision Making and Conflict Resolution
+
+- Technical decisions are discussed during team meetings or in GitHub Issues
+- If consensus cannot be reached, the team will vote
+- Blocking issues should be raised as early as possible to avoid deadline risk
