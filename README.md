@@ -8,17 +8,17 @@
 *TODO: the above badges that indicate python version and package version will only work if your package is on PyPI.
 If you don't plan to publish to PyPI, you can remove them.*
 
-csvplus provides a set of convenient enhancements on top of the Python `pandas` package for reading, cleaning, and summarizing data. Working with CSV files in pandas often requires manually specifying encodings or column types, which can be tedious. During analysis, it is common to encounter inconsistent values, such as "Google" vs. "Google, Inc.", that should be treated as the same entity. During data exploration, pandas offers descriptive statistics, but it does not automatically generate visual summaries.
+csvplus provides a set of convenient enhancements on top of the Python `pandas` package for reading, comparing, cleaning, and summarizing data. Reading CSV files with pandas does not always use the data type of the least memory. Sometimes, it is helpful to tell the differences between two version of a CSV file. Within a CSV file, the file data values can be inconsistent, such as "Google" vs. "Google, Inc.", and they should be treated as the same entity. Also, it is helpful not only to have descriptive statistics, but also the number of missing values.
 
 This package aims to address these pain points with these functions:
 |        |        |
 |--------|--------|
-|read_csv_auto|Automatically detecting the correct encoding when reading CSV files|
-|detect_column_types|Inferring appropriate data types for each column|
-|consolidate_data_variation|Consolidating variations of the same data value|
-|summary_report|Producing graphical summary reports of the dataset|
+|load_optimized_csv|Loads a CSV file and automatically downcasts data types to minimize memory footprint.|
+|data_version_diff|Compare two versions of a pandas DataFrame and summarize their differences.|
+|resolve_string_value|Consolidating spelling variations of the same data value in a column.|
+|summary_report|Produce a list of descriptive statistics of the data and information about missing values.|
 
-Our package fits into the Python preprocessing framework. Currently, the [`pandas`](https://pandas.pydata.org/) package provides basic functionality to read CSV and detect NA values, and the [`pyjanitor`](https://pyjanitor-devs.github.io/pyjanitor/) package sanitizes the column names, convert column dtype to categorical, and add onto dealing with missing data functionalities. Our package builds on top of those two with auto-detection capacities that further simplify data import, cleaning, and exploration, so that the data scientist can focus on modeling.
+Our package fits into the Python preprocessing framework. Currently, the [`pandas`](https://pandas.pydata.org/) package provides basic functionality to read CSV and produce summary statistics, and the [`pyjanitor`](https://pyjanitor-devs.github.io/pyjanitor/) package provides functions for sanitizing the column names and converting column dtype. Our package can be used along with these two with more auto-detection and summarization functionalities that further increase the efficiency of data preprocessing and data exploration workflows.
 
 ## Contributors
 - Alan Liu 
@@ -34,13 +34,14 @@ You can install this package into your preferred Python environment using pip:
 $ pip install csvplus
 ```
 
-TODO: Add a brief example of how to use the package to this section
-
 To use csvplus in your code:
 
 ```python
 >>> import csvplus
->>> csvplus.hello_world()
+>>> csvplus.load_optimized_csv.load_optimized_csv("large_dataset.csv")
+>>> csvplus.data_version_diff.data_version_diff(df_v1, df_v2)
+>>> csvplus.data-correction.resolve_string_value(data, "company_name", ["Google", "Microsoft"], 80)
+>>> csvplus.generate-report.summary_report(df)
 ```
 
 ## Copyright
