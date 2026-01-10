@@ -34,6 +34,14 @@ def summary_report(df):
         - 'numeric': dict {column_name: summary_stat} for numeric columns
         - 'categorical': dict {column_name: summary_stat} for categorical columns
 
+    Raises
+    ------
+    TypeError:
+        df is not a pandas.DataFrame.
+    ValueError:
+        df is empty.
+
+
     Examples
     --------
     >>> import pandas as pd
