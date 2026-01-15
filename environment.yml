@@ -1,0 +1,7 @@
+name: csvplus
+channels:
+  - conda-forge
+dependencies:
+  - pandas
+  - rapidfuzz
+  - pytest
