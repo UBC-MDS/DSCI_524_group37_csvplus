@@ -1,12 +1,15 @@
 """
-A module that consolidates similar data values to the standard (resolved) name within a column.
+A module that replaced data values to the resolved name within a column.
+Requires `pandas` and `rapidfuzz`.
 """
 
 def resolve_string_value(df, column_name, resolved_names, threshold):
     """
-    For all the values in the column_name of the df, check if there is a standard version
-    in the `resolved_names` (computing a similarity score and using the threshold to determine),
-    and apply the string replacement inplace.
+    For all the values in the column_name of the df, find the one element
+    in the `resolved_names` with highest similarity score computed with `fuzz.WRatio`
+    (case sensitive, meaning that "Google" and "google" will not have a score of 100).
+    And compare the similiarty score with the threshold to decide whether to apply
+    the string replacement inplace.
 
     Parameters
     ----------
@@ -16,28 +19,35 @@ def resolve_string_value(df, column_name, resolved_names, threshold):
         The column to conduct the consolidation on.
     resolved_names : list
         A list of standard names for transforming the column's value to.
-    threshold: int
-        the value used for determining if the matched value in `resolved_names` is similar enough.
+    threshold: float
+        The minimum similarity score (0 and 100) required to replace a value with a resolved name.
 
     Returns
     -------
     None
+
+    Raises
+    ------
+    ValueError
+        If column_name is not in df.
+        If resolved_names is empty.
+        If threshold is below 0 or above 100.
 
     Examples
     --------
     >>> import pandas as pd
     >>> data = pd.DataFrame({
     ...     "company_name": ["Google", "Google Inc.", "Gogle", "Microsoftt", "Micro-soft"],
-    ...     "location": ["Mt. view", "Mt. view", "Mt. view", "Redmond", , "Redmond"]
+    ...     "location": ["Mt. view", "Mt. view", "Mt. view", "Redmond", "Redmond"]
     ... })
     >>> resolve_string_value(data, "company_name", ["Google", "Microsoft"], 80)
     >>> data
        company_name  location
+    0   Google       Mt. view
     1   Google       Mt. view
     2   Google       Mt. view
-    3   Google       Mt. view
+    3   Microsoft    Redmond
     4   Microsoft    Redmond
-    5   Microsoft    Redmond
     """
     # TODO: implement this function
     return None
