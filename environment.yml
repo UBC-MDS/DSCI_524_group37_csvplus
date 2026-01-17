@@ -6,6 +6,7 @@ dependencies:
   - rapidfuzz
   - pytest
   - numpy
+  - scipy
   - pip
   - pip:
     - faker
