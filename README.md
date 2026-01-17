@@ -49,6 +49,8 @@ Our package fits into the Python preprocessing framework. Currently, the [`panda
 You can install the package into your preferred Python environment in editable mode (recommended for development):
 
 ```bash
+git clone git@github.com:UBC-MDS/DSCI_524_group37_csvplus.git csvplus
+cd csvplus
 pip install -e .
 ```
 
@@ -63,37 +65,23 @@ pip install csvplus
 To use csvplus in your code:
 
 ```python
->>> import csvplus
->>> csvplus.load_optimized_csv.load_optimized_csv("large_dataset.csv")
->>> csvplus.data_version_diff.data_version_diff(df_v1, df_v2)
->>> csvplus.data-correction.resolve_string_value(data, "company_name", ["Google", "Microsoft"], 80)
->>> csvplus.generate-report.summary_report(df)
-```
-
-1. Compare two versions of a dataset - `data_version_diff`
-
-The `data_version_diff` function lets you compare two `pandas.DataFrame` objects and get a high-level summary of the differences, including:
-
-- Columns added or removed
-- Changes in row counts
-- Missing value changes
-- Numeric summary changes
-- Data type changes
-
-You can also use the `display_data_version_diff` function to print a readable summary in the console.
-
-```python
 from csvplus.data_version_diff import data_version_diff, display_data_version_diff
+from csvplus.load_optimized_csv import load_optimized_csv
+from csvplus.data_correction import resolve_string_value
+from csvplus.generate_report import summary_report
 
-# Compare two DataFrames
+df_v1 = load_optimized_csv("large_dataset.csv")
+df_v2 = load_optimized_csv("large_dataset2.csv")
+
 diff = data_version_diff(df_v1, df_v2)
-
 # Inspect the returned dictionary
 print(diff["columns_added"])
 print(diff["row_count_change"])
-
 # Optionally display a formatted summary
 display_data_version_diff(diff)
+
+resolve_string_value(df_v1, "company_name", ["Google", "Microsoft"], 80)
+summary_report(df_v1)
 ```
 
 ### Running Tests
