@@ -182,3 +182,33 @@ def test_threshold_boundary_values(sample_csv):
     
     df = load_optimized_csv(sample_csv, category_threshold=1.0)
     assert isinstance(df, pd.DataFrame)
+
+
+def test_data_integrity_preserved(sample_csv):
+    """Test that data values are preserved after optimization (same rows, columns, values)."""
+    # Load the original data without optimization
+    df_original = pd.read_csv(sample_csv)
+    
+    # Load with optimization
+    df_optimized = load_optimized_csv(sample_csv)
+    
+    # Check same shape
+    assert df_original.shape == df_optimized.shape, "Shape mismatch after optimization"
+    
+    # Check same columns
+    assert list(df_original.columns) == list(df_optimized.columns), "Columns mismatch after optimization"
+    
+    # Check same values (compare after converting to common types for comparison)
+    for col in df_original.columns:
+        # Convert both to numpy arrays for comparison (handles sparse and categorical)
+        original_values = df_original[col].to_numpy()
+        optimized_values = np.array(df_optimized[col])
+        
+        if pd.api.types.is_numeric_dtype(df_original[col]):
+            # For numeric columns, use np.allclose to handle floating point
+            assert np.allclose(original_values, optimized_values, equal_nan=True), \
+                f"Values mismatch in column '{col}'"
+        else:
+            # For non-numeric, compare directly
+            assert np.array_equal(original_values, optimized_values), \
+                f"Values mismatch in column '{col}'"
