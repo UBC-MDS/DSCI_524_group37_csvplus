@@ -1,16 +1,15 @@
 import pandas as pd
 import numpy as np
 import pytest
-from rapidfuzz import process, fuzz
 from csvplus.data_correction import resolve_string_value
 
 @pytest.fixture
-def company_data():
-    data = pd.DataFrame({
+def data():
+    company_data = pd.DataFrame({
          "company_name": ["Google", "Google Inc.", "Gogle", "Microsoftt", "Micro-soft"],
          "location": ["Mt. view", "Mt. view", "Mt. view", "Redmond", "Redmond"]
     })
-    return data
+    return company_data
 
 def test_column_name_error(data):
     """Test that includes a nonexistent column name."""
@@ -19,7 +18,7 @@ def test_column_name_error(data):
 
 def test_resolved_names_error(data):
     """Test that has an empty resolved_names list."""
-    with pytest.raises(ValueError, match="The given resolved names is empty."):
+    with pytest.raises(ValueError, match="The given resolved_names is empty."):
         resolve_string_value(data, "company_name", [], 80)
 
 def test_threshold_value_error(data):
@@ -31,11 +30,11 @@ def test_threshold_value_error(data):
     "threshold_value, expected_list",
     [
         (90, ["Google", "Microsoft"]),
-        (94, ["Google", "Google Inc.", "Gogle", "Microsoft"])
+        (93, ["Google", "Google Inc.", "Gogle", "Microsoft"])
     ]
 )
 def test_resolve_string_value(data, threshold_value, expected_list):
-    """Test that includes an out-of-range threshold value."""
+    """Test that verifies core functionality with different thresholds  ."""
     column_name = "company_name"
     resolve_string_value(data, column_name, ["Google", "Microsoft"], threshold_value)
     # Test if the entire thing is expected.

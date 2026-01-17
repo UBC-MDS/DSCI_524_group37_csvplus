@@ -3,6 +3,9 @@ A module that replaced data values to the resolved name within a column.
 Requires `pandas` and `rapidfuzz`.
 """
 
+import pandas as pd
+from rapidfuzz import process, fuzz
+
 def resolve_string_value(df, column_name, resolved_names, threshold):
     """
     For all the values in the column_name of the df, find the one element
@@ -49,5 +52,30 @@ def resolve_string_value(df, column_name, resolved_names, threshold):
     3   Microsoft    Redmond
     4   Microsoft    Redmond
     """
-    # TODO: implement this function
-    return None
+    # checks
+    if column_name not in df.columns:
+        raise ValueError("The given column_name does not exist.")
+    elif not resolved_names:
+        raise ValueError("The given resolved_names is empty.")
+    elif (threshold < 0) or (threshold > 100):
+        raise ValueError("The threshold value is out of range.")
+    
+    # Adopted MS Copilot solution to: "How to use `rapidfuzz.process.extractOne()`"?"
+    # Return closest string in `choices` if similarity score based on `fuzz.WRatio` is
+    # above threshold. Otherwise, return the word itself. 
+    def find_closest(query, choices, threshold):
+        result = process.extractOne(query, choices, scorer=fuzz.WRatio)
+        if result and result[1] >= threshold:
+            return result[0]
+        else:
+            return query
+    
+    df[column_name] = df[column_name].apply(lambda x: find_closest(x, resolved_names, threshold))
+
+# if __name__ == '__main__':
+#     data = pd.DataFrame({
+#          "company_name": ["Google", "Google Inc.", "Gogle", "Microsoftt", "Micro-soft"],
+#          "location": ["Mt. view", "Mt. view", "Mt. view", "Redmond", "Redmond"]
+#     })
+#     resolve_string_value(data, "company_name", ["Google", "Microsoft"], 93)
+#     print(data)
