@@ -7,6 +7,8 @@ fake = Faker()
 Faker.seed(123)
 np.random.seed(123)
 
+# CMD to run this: python -m csvplus.examples.data_version_diff_demo
+
 # --- TESTING USING DUMMY DATA ---
 
 n_old = 100

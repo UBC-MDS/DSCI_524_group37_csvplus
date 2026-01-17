@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 def data_version_diff(df_old, df_new):
     """
@@ -120,24 +119,24 @@ def data_version_diff(df_old, df_new):
         summary_old = df_old[shared_numeric_columns].describe().loc[['mean', 'std', 'min', 'max']].T
         summary_new = df_new[shared_numeric_columns].describe().loc[['mean', 'std', 'min', 'max']].T
 
-    # convert to long format
-    summary_old_long = summary_old.reset_index().melt(id_vars="index", var_name="statistic", value_name="old").rename(columns={"index": "column"})
+        # convert to long format
+        summary_old_long = summary_old.reset_index().melt(id_vars="index", var_name="statistic", value_name="old").rename(columns={"index": "column"})
 
-    summary_new_long = summary_new.reset_index().melt(
-    id_vars="index", var_name="statistic", value_name="new"
-    ).rename(columns={"index": "column"})
+        summary_new_long = summary_new.reset_index().melt(
+        id_vars="index", var_name="statistic", value_name="new"
+        ).rename(columns={"index": "column"})
 
-    # merge old and new 
-    numeric_summary_changes = summary_old_long.merge(
-        summary_new_long, on=["column", "statistic"], how="inner"
-    )
+        # merge old and new 
+        numeric_summary_changes = summary_old_long.merge(
+            summary_new_long, on=["column", "statistic"], how="inner"
+        )
 
-    # calculate the difference
-    numeric_summary_changes["difference"] = (
-        numeric_summary_changes["new"] - numeric_summary_changes["old"]
-    )
+        # calculate the difference
+        numeric_summary_changes["difference"] = (
+            numeric_summary_changes["new"] - numeric_summary_changes["old"]
+        )
 
-    ###### dtype_changes ##############
+    # --- dtype_changes ---
     #for each shared column, compare types
     dtype_changes_list = []
     for col in shared_columns:
