@@ -58,12 +58,13 @@ def load_optimized_csv(
     FileNotFoundError
         If `filepath` does not exist.
     ValueError
-        If the file is not a valid CSV, or if `sparse_threshold` or
-        `category_threshold` are not in [0, 1].
+        If the file is not a valid CSV, if `sparse_threshold` or
+        `category_threshold` are not in [0, 1], or if `usecols`
+        contains columns not present in the CSV.
     TypeError
         If arguments are of incorrect types.
     pd.errors.EmptyDataError
-        If the CSV file is empty.
+        If the CSV file is empty or contains only headers.
     MemoryError
         If the final DataFrame exceeds available memory.
 
@@ -129,10 +130,12 @@ def load_optimized_csv(
     
     # Helper function to optimize a chunk
     def _optimize_chunk(chunk_df):
-        # Downcast numeric columns
+        # Downcast numeric columns (skip booleans)
         for col in chunk_df.columns:
             if col in no_downcast_cols:
                 continue
+            if pd.api.types.is_bool_dtype(chunk_df[col]):
+                continue  # Preserve boolean dtype
             if pd.api.types.is_integer_dtype(chunk_df[col]):
                 chunk_df[col] = pd.to_numeric(chunk_df[col], downcast="integer")
             elif pd.api.types.is_float_dtype(chunk_df[col]):
@@ -160,12 +163,16 @@ def load_optimized_csv(
         if nrows is not None and rows_read >= nrows:
             break
     
-    # Handle empty file
+    # Handle empty file or no chunks read
     if not chunks:
         raise pd.errors.EmptyDataError("No columns to parse from file")
     
     # Concatenate all chunks
     df = pd.concat(chunks, ignore_index=True)
+    
+    # Handle headers-only file (no data rows)
+    if len(df) == 0:
+        raise pd.errors.EmptyDataError("CSV file contains only headers, no data rows")
     
     # Convert low-cardinality string columns to categorical (after concat for accurate ratios)
     for col in df.columns:
@@ -177,9 +184,12 @@ def load_optimized_csv(
                 df[col] = df[col].astype("category")
     
     # Convert high-zero columns to sparse (after concat for accurate ratios)
+    # Skip boolean columns to preserve their dtype
     for col in df.columns:
         if col in no_sparse_cols:
             continue
+        if pd.api.types.is_bool_dtype(df[col]):
+            continue  # Preserve boolean dtype
         if pd.api.types.is_numeric_dtype(df[col]) and not isinstance(df[col].dtype, pd.SparseDtype):
             zero_ratio = (df[col] == 0).sum() / len(df)
             if zero_ratio >= sparse_threshold:

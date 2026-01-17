@@ -212,3 +212,68 @@ def test_data_integrity_preserved(sample_csv):
             # For non-numeric, compare directly
             assert np.array_equal(original_values, optimized_values), \
                 f"Values mismatch in column '{col}'"
+
+
+def test_file_with_headers_only(tmp_path):
+    """Test that EmptyDataError is raised for file with headers but no data rows."""
+    csv_file = tmp_path / "headers_only.csv"
+    csv_file.write_text("col1,col2,col3\n")
+    with pytest.raises(pd.errors.EmptyDataError):
+        load_optimized_csv(str(csv_file))
+
+
+def test_usecols_invalid_column(tmp_path):
+    """Test that ValueError is raised for usecols with non-existent column."""
+    df = pd.DataFrame({"a": [1, 2], "b": [3, 4]})
+    csv_file = tmp_path / "usecols_test.csv"
+    df.to_csv(csv_file, index=False)
+    with pytest.raises(ValueError):
+        load_optimized_csv(str(csv_file), usecols=["nonexistent_col"])
+
+
+def test_boolean_column_preserved(tmp_path):
+    """Test that boolean columns are preserved and not converted to sparse."""
+    df = pd.DataFrame({
+        "bool_col": [True, False, False, False, False],  # 80% False
+        "int_col": [0, 0, 0, 0, 1]  # 80% zeros
+    })
+    csv_file = tmp_path / "bool_test.csv"
+    df.to_csv(csv_file, index=False)
+    
+    result = load_optimized_csv(str(csv_file), sparse_threshold=0.3)
+    
+    # Boolean column should remain bool, not converted to sparse
+    assert result["bool_col"].dtype == "bool"
+    assert not isinstance(result["bool_col"].dtype, pd.SparseDtype)
+    
+    # Integer column should be converted to sparse (80% zeros > 30% threshold)
+    assert isinstance(result["int_col"].dtype, pd.SparseDtype)
+
+
+def test_mixed_type_column_handling(tmp_path):
+    """Test that mixed-type object columns don't crash and are handled gracefully."""
+    csv_file = tmp_path / "mixed.csv"
+    csv_file.write_text("col\n1\nfoo\n2.5\nbar\n")
+    
+    df = load_optimized_csv(str(csv_file))
+    
+    assert isinstance(df, pd.DataFrame)
+    assert len(df) == 4
+    # Mixed types become object, may be converted to categorical
+    assert df["col"].dtype == "object" or isinstance(df["col"].dtype, pd.CategoricalDtype)
+
+
+def test_nan_values_preserved(tmp_path):
+    """Test that NaN values are preserved after optimization."""
+    df = pd.DataFrame({
+        "num_col": [0.0, 0.0, np.nan, np.nan, 1.0],
+        "str_col": ["A", "A", None, "B", "B"]
+    })
+    csv_file = tmp_path / "nan_test.csv"
+    df.to_csv(csv_file, index=False)
+    
+    result = load_optimized_csv(str(csv_file))
+    
+    # NaN values should be preserved
+    assert result["num_col"].isna().sum() == 2
+    assert result["str_col"].isna().sum() == 1
