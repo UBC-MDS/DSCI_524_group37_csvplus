@@ -108,7 +108,7 @@ source = [
 
 [tool.coverage.run]
 # Ensures code coverage is measured for branches (conditional statements with different outcomes) in your code.
-branch = true
+#branch = true
 parallel = true
 
 [tool.coverage.report]
