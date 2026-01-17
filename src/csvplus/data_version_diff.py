@@ -1,10 +1,5 @@
 import pandas as pd
 import numpy as np
-from faker import Faker
-
-fake = Faker()
-Faker.seed(123)
-np.random.seed(123)
 
 def data_version_diff(df_old, df_new):
     """
@@ -87,8 +82,8 @@ def data_version_diff(df_old, df_new):
     new_cols = set(df_new.columns)
 
     #columns added and removed
-    columns_added = list(new_cols - old_cols)
-    columns_removed = list(old_cols - new_cols)
+    columns_added = sorted(new_cols - old_cols)
+    columns_removed = sorted(old_cols - new_cols)
 
     #row_count_change
     old_row_count = len(df_old)
@@ -117,8 +112,13 @@ def data_version_diff(df_old, df_new):
     shared_numeric_columns = numeric_cols_old.intersection(numeric_cols_new) 
 
     #compute summary statistics for shared numeric columns
-    summary_old = df_old[shared_numeric_columns].describe().loc[['mean', 'std', 'min', 'max']].T
-    summary_new = df_new[shared_numeric_columns].describe().loc[['mean', 'std', 'min', 'max']].T
+    if len(shared_numeric_columns) == 0:
+        numeric_summary_changes = pd.DataFrame(
+            columns=["column", "statistic", "old", "new", "difference"]
+        )
+    else:
+        summary_old = df_old[shared_numeric_columns].describe().loc[['mean', 'std', 'min', 'max']].T
+        summary_new = df_new[shared_numeric_columns].describe().loc[['mean', 'std', 'min', 'max']].T
 
     # convert to long format
     summary_old_long = summary_old.reset_index().melt(id_vars="index", var_name="statistic", value_name="old").rename(columns={"index": "column"})
@@ -144,7 +144,9 @@ def data_version_diff(df_old, df_new):
         old_type = df_old[col].dtype
         new_type = df_new[col].dtype
         if old_type != new_type:
-            dtype_changes_list.append({"column": col, "old_dtype": old_type, "new_type": new_type})
+            dtype_changes_list.append({
+                "column": col, "old_dtype": str(old_type), "new_type": str(new_type)
+                })
 
     #convert to DF
     dtype_changes = pd.DataFrame(dtype_changes_list)
@@ -159,76 +161,16 @@ def data_version_diff(df_old, df_new):
         },
         "missing_value_changes": missing_summary,
         "numeric_summary_changes": numeric_summary_changes,
-        "dtype_changes": dtype_changes
+        "dtype_changes": dtype_changes,
+        "summary": {
+            "n_columns_added": len(columns_added),
+            "n_columns_removed": len(columns_removed),
+            "n_dtype_changes": len(dtype_changes),
+            "n_missing_changes": int((missing_summary["difference"] != 0).sum()),
+        },
     }
 
     return result
-
-"""
-####### TESTING USING DUMMY DATA #################
-"""
-
-n_old = 100
-
-df_old = pd.DataFrame({
-    "user_id": range(1, n_old + 1),
-    "age": np.random.randint(18, 70, size=n_old),
-    "income": np.random.normal(loc=5000, scale=15000, size=n_old),
-    "email": [fake.email() for _ in range(n_old)],
-    "signup_date": [fake.date_between(start_date="-2y", end_date="today") for _ in range(n_old)],
-    "country": [fake.country() for _ in range(n_old)],
-})
-
-#introduce missing values in df_old
-age_missing_idx = np.random.choice(df_old.index, size=10, replace=False)
-df_old.loc[age_missing_idx, "age"] = np.nan
-
-email_missing_idx = np.random.choice(df_old.index, size=3, replace=False)
-df_old.loc[email_missing_idx, "email"] = np.nan
-
-#create df_new
-df_new = df_old.copy()
-
-#add rows for row count change
-n_new_rows = 20
-
-new_rows = pd.DataFrame({
-    "user_id": range(df_old["user_id"].max() + 1, df_old["user_id"].max() + 1 + n_new_rows),
-    "age": np.random.randint(18, 70, size=n_new_rows),
-    "income": np.random.normal(loc=60000, scale=20000, size=n_new_rows),
-    "email": [fake.email() for _ in range(n_new_rows)],
-    "signup_date": [fake.date_between(start_date="-1y", end_date="today") for _ in range(n_new_rows)],
-    "country": [fake.country() for _ in range(n_new_rows)],
-})
-df_new = pd.concat([df_new, new_rows], ignore_index=True)
-
-#column removal
-df_new = df_new.drop(columns=["country"])
-
-#column addition
-df_new["last_login_date"] = [
-    fake.date_between(start_date="-6m", end_date="today") for _ in range(len(df_new))
-]
-
-## missing value changes
-#reduce missing ages (fill some)
-df_new['age'] = df_new['age'].fillna(df_new['age'].median())
-
-#introduce missing income values
-income_missing_idx = np.random.choice(df_new.index, size=8, replace=False)
-df_new.loc[income_missing_idx, "income"] = np.nan
-
-## data type change
-df_new["age"] = df_new["age"].astype(str)
-
-## sanity checks
-# df_old.info()
-# df_new.info()
-
-# df_old.head()
-# df_new.head()
-
-#result = data_version_diff(df_old, df_new)
 
 def display_data_version_diff(result):
     print("\n" + "=" * 60)
@@ -296,5 +238,3 @@ def display_data_version_diff(result):
     else:
         print(dt.to_string(index=False))
 
-result = data_version_diff(df_old, df_new)
-display_data_version_diff(result)
