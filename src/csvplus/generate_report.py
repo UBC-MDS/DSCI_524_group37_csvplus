@@ -4,6 +4,14 @@ Includes useful summary statistics for numeric and categorical data
 for use in data analysis.
 
 Requires: pandas >= 1.0.0, scipy >= 1.0.0
+
+LLM Usage Disclosure
+Claude.ai was used to perform the following tasks:
+- Provide recommendations for which statistics to include in the output report,
+  given their frequency of use in real-world data analysis.
+- Generate pseudocode for the confidence interval and proportion calculations.
+- Look for edge cases in the code and recommend how to best address them,
+  particularly null columns and input DataFrames with extreme small row counts.
 """
 
 import pandas as pd
@@ -279,14 +287,3 @@ def summary_report(
 
     # Return results
     return numeric_stats, categorical_stats
-
-
-"""
-LLM Usage Disclosure
-Claude.ai was used in this report to perform the following tasks:
-- Provide recommendations for which statistics to include in the output report,
-  given their frequency of use in real-world data analysis.
-- Generate pseudocode for the confidence interval and proportion calculations.
-- Look for edge cases in the code and recommend how to best address them,
-  particularly null columns and input DataFrames with extreme small row counts.
-"""

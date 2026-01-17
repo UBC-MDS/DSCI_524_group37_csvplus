@@ -1,3 +1,13 @@
+"""
+LLM Usage Disclosure
+Claude.ai was used to perform the following tasks:
+- After writing initial tests, suggest additional tests for maximum coverage.
+- Suggest edge cases that should be addressed in test suite and function code.
+- Troubleshooting test construction, particularly dealing with testing for
+  Null and NaN values.
+- Learning how to use Class with pytest to group tests.
+"""
+
 import pytest
 import pandas as pd
 from csvplus.generate_report import summary_report
@@ -343,14 +353,3 @@ class TestEdgeCases:
 
         assert cat_stats.loc['dup', 'is_constant'] == True
         assert cat_stats.loc['dup', 'top_1_prop'] == 1.0
-
-
-"""
-LLM Usage Disclosure
-Claude.ai was used in this report to perform the following tasks:
-- After writing initial tests, suggest additional tests for maximum coverage.
-- Suggest edge cases that should be addressed in test suite and function code.
-- Troubleshooting test construction, particularly dealing with testing for
-  Null and NaN values.
-- Learning how to use Class with pytest to group tests.
-"""
