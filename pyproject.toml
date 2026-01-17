@@ -17,7 +17,10 @@ version = "0.1.0"
 
 description = "A better way to read and manipulate data"
 authors = [
-    { name = "" },
+    { name = "Alan Liu" },
+    { name = "Oswin Gan" },
+    { name = "Purity Jangaya" },
+    { name = "Ralah" }
 ]
 license = "MIT"
 requires-python = ">= 3.10" # Adjust based on the minimum version of Python that you support
@@ -105,7 +108,7 @@ source = [
 
 [tool.coverage.run]
 # Ensures code coverage is measured for branches (conditional statements with different outcomes) in your code.
-branch = true
+#branch = true
 parallel = true
 
 [tool.coverage.report]
