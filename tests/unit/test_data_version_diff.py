@@ -130,7 +130,7 @@ def test_empty_dataframes():
     """
     Ensure the function handles empty DataFrames without error.
     """
-    
+
     df_old = pd.DataFrame()
     df_new = pd.DataFrame()
 
@@ -140,3 +140,18 @@ def test_empty_dataframes():
     assert result["row_count_change"]["new_row_count"] == 0
     assert result["columns_added"] == []
     assert result["columns_removed"] == []
+
+def test_display_data_version_diff(capsys):
+    """
+    Test that the display function runs without error and prints something.
+    """
+    df_old = pd.DataFrame({"a": [1, None]})
+    df_new = pd.DataFrame({"a": [2, None]})
+    result = data_version_diff(df_old, df_new)
+    
+    # Call the display function
+    from csvplus.data_version_diff import display_data_version_diff
+    display_data_version_diff(result)
+    
+    captured = capsys.readouterr()
+    assert "DATA VERSION CHANGE SUMMARY" in captured.out

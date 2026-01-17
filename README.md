@@ -70,18 +70,19 @@ from csvplus.load_optimized_csv import load_optimized_csv
 from csvplus.data_correction import resolve_string_value
 from csvplus.generate_report import summary_report
 
-df_v1 = load_optimized_csv("large_dataset.csv")
-df_v2 = load_optimized_csv("large_dataset2.csv")
-
-diff = data_version_diff(df_v1, df_v2)
-# Inspect the returned dictionary
-print(diff["columns_added"])
-print(diff["row_count_change"])
+# --- test data type change in csvplus.data_version_diff ---
+df1 = pd.DataFrame({"a": [1,2,3]})
+df2 = pd.DataFrame({"a": ["1","2","3"]})
+diff = data_version_diff(df1, df2)
+print(diff)
 # Optionally display a formatted summary
 display_data_version_diff(diff)
 
-resolve_string_value(df_v1, "company_name", ["Google", "Microsoft"], 80)
-summary_report(df_v1)
+# --- csvplus.data_correction --
+df_v1 = load_optimized_csv("large_dataset.csv")
+df_v2 = load_optimized_csv("large_dataset2.csv")
+resolve_string_value(df1, "company_name", ["Google", "Microsoft"], 80)
+summary_report(df1)
 ```
 
 ### Running Tests
