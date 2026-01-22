@@ -54,6 +54,8 @@ Download = "https://pypi.org/project/csvplus/#files"
 dev = [
     "hatch",
     "pre-commit",
+    "rapidfuzz",
+    "pandas"
 ]
 
 docs = [
