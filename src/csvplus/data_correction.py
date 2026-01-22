@@ -71,11 +71,3 @@ def resolve_string_value(df, column_name, resolved_names, threshold):
             return query
     
     df[column_name] = df[column_name].apply(lambda x: find_closest(x, resolved_names, threshold))
-
-# if __name__ == '__main__':
-#     data = pd.DataFrame({
-#          "company_name": ["Google", "Google Inc.", "Gogle", "Microsoftt", "Micro-soft"],
-#          "location": ["Mt. view", "Mt. view", "Mt. view", "Redmond", "Redmond"]
-#     })
-#     resolve_string_value(data, "company_name", ["Google", "Microsoft"], 93)
-#     print(data)
