@@ -54,7 +54,7 @@ Download = "https://pypi.org/project/csvplus/#files"
 # They are here now because hatch hasn't released support for them but plans to
 # in Mid November 2025.
 dev = [
-    "hatch",
+    "hatch==1.15",
     "pre-commit",
     "rapidfuzz",
     "pandas==2.3.3",
