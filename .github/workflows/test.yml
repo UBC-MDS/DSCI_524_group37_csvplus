@@ -24,10 +24,12 @@ jobs:
       uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v5.1.0
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install hatch
+    # Install dependencies
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         python -m pip install hatch
+        pip install -e ".[tests,dev]"
     - name: Run test suite
       run: hatch run +py=${{ matrix.python-version }} test:run
     # If you use this step and have a private repo- then you will need to get a
