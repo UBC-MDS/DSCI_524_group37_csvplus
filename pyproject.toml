@@ -55,7 +55,8 @@ dev = [
     "hatch",
     "pre-commit",
     "rapidfuzz",
-    "pandas"
+    "pandas",
+    "scipy"
 ]
 
 docs = [
