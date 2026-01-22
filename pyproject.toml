@@ -37,7 +37,9 @@ classifiers = [
 keywords = []
 # TODO: add dependencies
 dependencies = [
-    "rapidfuzz"
+    "rapidfuzz",
+    "pandas==2.3.3",
+    "scipy"
 ]
 
 [project.urls]
@@ -79,6 +81,7 @@ tests = [
     "pytest-raises",
     "pytest-randomly",
     "pytest-xdist",
+    "pandas==2.3.3"
 ]
 
 
