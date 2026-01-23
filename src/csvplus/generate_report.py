@@ -6,7 +6,9 @@ for use in data analysis.
 Requires: pandas >= 1.0.0, scipy >= 1.0.0
 
 LLM Usage Disclosure
+--------------------
 Claude.ai was used to perform the following tasks:
+
 - Provide recommendations for which statistics to include in the output report,
   given their frequency of use in real-world data analysis.
 - Generate pseudocode for the confidence interval and proportion calculations.
@@ -27,36 +29,38 @@ def summary_report(
     """
     For an input DataFrame, generate a summary report including:
 
-        For numeric columns (int, float):
-            - 'count': number of non-null values
-            - 'n_missing': number of missing values
-            - 'missing_prop': proportion of missing values
-            - 'mean': arithmetic mean
-            - 'ci_lower': lower bound of confidence interval for mean
-            - 'ci_upper': upper bound of confidence interval for mean
-            - 'median': median
-            - 'std': standard deviation
-            - 'min': minimum value
-            - '25%': first quartile
-            - '75%': third quartile
-            - 'max': maximum value
-            - 'n_unique': number of unique values
+    For numeric columns (int, float):
 
-        For categorical columns (object, string, category, bool, datetime):
-            - 'count': number of non-null values
-            - 'n_missing': number of missing values
-            - 'missing_prop': proportion of missing values
-            - 'n_unique': number of unique values
-            - 'unique_prop': proportion of unique values to total count
-            - 'is_constant': boolean indicating if only one unique value exists
-            - 'top_values': dictionary of {value: count} for up to top_n most frequent values
-            - 'top_1_prop': proportion of most common value
+    - 'count': number of non-null values
+    - 'n_missing': number of missing values
+    - 'missing_prop': proportion of missing values
+    - 'mean': arithmetic mean
+    - 'ci_lower': lower bound of confidence interval for mean
+    - 'ci_upper': upper bound of confidence interval for mean
+    - 'median': median
+    - 'std': standard deviation
+    - 'min': minimum value
+    - '25%': first quartile
+    - '75%': third quartile
+    - 'max': maximum value
+    - 'n_unique': number of unique values
+
+    For categorical columns (object, string, category, bool, datetime):
+
+    - 'count': number of non-null values
+    - 'n_missing': number of missing values
+    - 'missing_prop': proportion of missing values
+    - 'n_unique': number of unique values
+    - 'unique_prop': proportion of unique values to total count
+    - 'is_constant': boolean indicating if only one unique value exists
+    - 'top_values': dictionary of {value: count} for up to top_n most frequent values
+    - 'top_1_prop': proportion of most common value
 
     Note: Confidence intervals are calculated using the t-distribution
-          and assume approximately normal data or sufficient sample size (n>=30).
-          Columns with all null values are excluded from output.
-          Numeric columns with fewer than 2 non-null values will have ci_lower and
-          ci_upper set to None.
+    and assume approximately normal data or sufficient sample size (n>=30).
+    Columns with all null values are excluded from output.
+    Numeric columns with fewer than 2 non-null values will have ci_lower and
+    ci_upper set to None.
 
     Parameters
     ----------
@@ -73,12 +77,13 @@ def summary_report(
     -------
     tuple[pd.DataFrame, pd.DataFrame]
         A tuple of (numeric_stats, categorical_stats) where:
+
         - numeric_stats: DataFrame with statistics as columns
-                         rows are numeric columns indexed by
-                         column names from the input DataFrame
+          rows are numeric columns indexed by
+          column names from the input DataFrame
         - categorical_stats: DataFrame with statistics as columns
-                             rows are categorical columns indexed by
-                             column names from the input DataFrame
+          rows are categorical columns indexed by
+          column names from the input DataFrame
 
         If no numeric or categorical columns exist, the respective
         DataFrame will be empty.
