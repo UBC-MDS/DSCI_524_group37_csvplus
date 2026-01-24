@@ -51,6 +51,16 @@ class TestInputValidation:
         with pytest.raises(ValueError):
             summary_report(df, top_n=-1)
 
+    def test_large_top_n_exceeds_unique_values(self):
+        """Test that top_n larger than the number of unique values 
+        returns all unique values without error."""
+        df = pd.DataFrame({'x': ['a', 'b', 'c', 'c']})
+        _, cat_stats = summary_report(df, top_n=100)
+        
+        top_vals = cat_stats.loc['x', 'top_values']
+        assert len(top_vals) == 3
+        assert set(top_vals.keys()) == {'a', 'b', 'c'}
+
 
 class TestNumericColumns:
     """Test numeric column statistics."""
