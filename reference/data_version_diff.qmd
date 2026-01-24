@@ -1,0 +1,104 @@
+# data_version_diff { #csvplus.data_version_diff }
+
+`data_version_diff`
+
+A module that summarizes structural and statistical differences between two DataFrame versions.
+
+## Functions
+
+| Name | Description |
+| --- | --- |
+| [data_version_diff](#csvplus.data_version_diff.data_version_diff) | This function compares an earlier and a later version of a pandas DataFrame |
+| [display_data_version_diff](#csvplus.data_version_diff.display_data_version_diff) | Print a formatted, human-readable summary of DataFrame version differences. |
+
+### data_version_diff { #csvplus.data_version_diff.data_version_diff }
+
+```python
+data_version_diff.data_version_diff(df_old, df_new)
+```
+
+This function compares an earlier and a later version of a pandas DataFrame
+and returns a high-level summary of how the data has changed. It is designed
+for data auditing, version tracking, and exploratory analysis rather than
+cell-by-cell comparison.
+
+The comparison includes:
+- Columns that were added or removed
+- Changes in row counts
+- Changes in missing values by column
+- Changes in summary statistics for numeric columns
+- Changes in data types
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type             | Description                                     | Default    |
+|--------|------------------|-------------------------------------------------|------------|
+| df_old | pandas.DataFrame | The original or earlier version of the dataset. | _required_ |
+| df_new | pandas.DataFrame | The updated or later version of the dataset.    | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                                      |
+|--------|--------|------------------------------------------------------------------|
+| result | dict   | A dictionary summarizing differences between the two DataFrames. |
+
+#### Notes {.doc-section .doc-section-notes}
+
+- This function assumes both inputs are pandas DataFrames.
+- Rows are compared by position only; no key-based row matching is performed.
+- The function is intended for small to medium-sized datasets and exploratory
+  analysis rather than large-scale production pipelines.
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> import pandas as pd
+>>> from csvplus import data_version_diff, display_data_version_diff
+>>> df_old = pd.DataFrame({
+...     "id": [1, 2, 3],
+...     "value": [10, 20, 30],
+...     "category": ["A", "B", "B"]
+... })
+>>> df_new = pd.DataFrame({
+...     "id": [1, 2, 3, 4],
+...     "value": [10.0, 25.0, 30.0, 40.0],
+...     "category": ["A", "B", None, "C"],
+...     "new_col": [100, 200, 300, 400]
+... })
+>>> diff = data_version_diff(df_old, df_new)
+>>> diff["columns_added"]
+['new_col']
+>>> diff["row_count_change"]["row_difference"]
+1
+>>> diff["dtype_changes"][["column", "old_dtype", "new_type"]]
+```
+
+### display_data_version_diff { #csvplus.data_version_diff.display_data_version_diff }
+
+```python
+data_version_diff.display_data_version_diff(result)
+```
+
+Print a formatted, human-readable summary of DataFrame version differences.
+
+This function takes the output of `data_version_diff` and prints a structured
+console report highlighting row count changes, schema changes, missing value
+differences, numeric summary changes, and data type changes.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                                     | Default    |
+|--------|--------|-------------------------------------------------|------------|
+| result | dict   | The dictionary returned by `data_version_diff`. | _required_ |
+
+#### Notes {.doc-section .doc-section-notes}
+
+- This function is intended for interactive use (e.g., notebooks or terminals).
+- It does not return any value.
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> diff = data_version_diff(df_old, df_new)
+>>> display_data_version_diff(diff)
+```

@@ -1,0 +1,112 @@
+# generate_report { #csvplus.generate_report }
+
+`generate_report`
+
+A module that generates a summary report given an input dataframe.
+Includes useful summary statistics for numeric and categorical data
+for use in data analysis.
+
+Requires: pandas >= 1.0.0, scipy >= 1.0.0
+
+## LLM Usage Disclosure {.doc-section .doc-section-llm-usage-disclosure}
+
+Claude.ai was used to perform the following tasks:
+
+- Provide recommendations for which statistics to include in the output report,
+  given their frequency of use in real-world data analysis.
+- Generate pseudocode for the confidence interval and proportion calculations.
+- Look for edge cases in the code and recommend how to best address them,
+  particularly null columns and input DataFrames with extreme small row counts.
+
+## Functions
+
+| Name | Description |
+| --- | --- |
+| [summary_report](#csvplus.generate_report.summary_report) | For an input DataFrame, generate a summary report including: |
+
+### summary_report { #csvplus.generate_report.summary_report }
+
+```python
+generate_report.summary_report(df, confidence_level=0.95, top_n=5)
+```
+
+For an input DataFrame, generate a summary report including:
+
+For numeric columns (int, float):
+
+- 'count': number of non-null values
+- 'n_missing': number of missing values
+- 'missing_prop': proportion of missing values
+- 'mean': arithmetic mean
+- 'ci_lower': lower bound of confidence interval for mean
+- 'ci_upper': upper bound of confidence interval for mean
+- 'median': median
+- 'std': standard deviation
+- 'min': minimum value
+- '25%': first quartile
+- '75%': third quartile
+- 'max': maximum value
+- 'n_unique': number of unique values
+
+For categorical columns (object, string, category, bool, datetime):
+
+- 'count': number of non-null values
+- 'n_missing': number of missing values
+- 'missing_prop': proportion of missing values
+- 'n_unique': number of unique values
+- 'unique_prop': proportion of unique values to total count
+- 'is_constant': boolean indicating if only one unique value exists
+- 'top_values': dictionary of {value: count} for up to top_n most frequent values
+- 'top_1_prop': proportion of most common value
+
+Note: Confidence intervals are calculated using the t-distribution
+and assume approximately normal data or sufficient sample size (n>=30).
+Columns with all null values are excluded from output.
+Numeric columns with fewer than 2 non-null values will have ci_lower and
+ci_upper set to None.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name             | Type         | Description                                                                                         | Default    |
+|------------------|--------------|-----------------------------------------------------------------------------------------------------|------------|
+| df               | pd.DataFrame | DataFrame to obtain summary statistics for.                                                         | _required_ |
+| confidence_level | float        | Confidence level for calculating confidence intervals for numeric columns. Must be between 0 and 1. | `0.95`     |
+| top_n            | int          | Maximum number of most frequent values to include in top_values for categorical columns.            | `5`        |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                                | Description                                                                                                                                                                                                                                                                                                                                                                                                                |
+|--------|-------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|        | tuple\[pd.DataFrame, pd.DataFrame\] | A tuple of (numeric_stats, categorical_stats) where:  - numeric_stats: DataFrame with statistics as columns   rows are numeric columns indexed by   column names from the input DataFrame - categorical_stats: DataFrame with statistics as columns   rows are categorical columns indexed by   column names from the input DataFrame  If no numeric or categorical columns exist, the respective DataFrame will be empty. |
+
+#### Raises {.doc-section .doc-section-raises}
+
+| Name   | Type       | Description                                                                                |
+|--------|------------|--------------------------------------------------------------------------------------------|
+|        | TypeError  | If df is not a pandas.DataFrame.                                                           |
+|        | ValueError | If df is empty (has no rows), if confidence_level is not between 0 and 1, or if top_n < 1. |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> import pandas as pd
+>>> df = pd.DataFrame({
+...     'age': [25, 21, 32, None, 40],
+...     'city': ['NYC', 'LA', 'NYC', 'SF', 'LA']
+... })
+>>> numeric_stats, categorical_stats = summary_report(df)
+>>> numeric_stats.loc['age', 'mean']
+29.5
+>>> numeric_stats.loc['age', 'n_missing']
+1
+>>> numeric_stats.loc['age', 'missing_prop']
+0.2
+>>> numeric_stats.loc['age', 'ci_lower']
+22.3
+>>> categorical_stats.loc['city', 'n_unique']
+3
+>>> categorical_stats.loc['city', 'top_values']
+{'NYC': 2, 'LA': 2, 'SF': 1}
+>>> categorical_stats.loc['city', 'unique_prop']
+0.6
+```

@@ -1,0 +1,77 @@
+---
+title: csvplus
+---
+
+## What is csvplus?
+
+`csvplus` is a lightweight Python package for inspecting, comparing, and
+preparing CSV-based tabular data. It provides utilities for:
+
+- Loading large CSV files efficiently with automatic dtype optimization
+- Comparing different versions of datasets to understand how data has changed
+- Cleaning and standardizing tabular data
+- Generating summary reports for data auditing and reproducibility
+
+The package is designed for data scientists, analysts, and students who work
+with evolving datasets and want quick, interpretable insights into data changes.
+
+---
+
+## Getting Started
+
+Install the package in editable mode:
+
+```bash
+pip install -e .
+````
+
+Load and optimize a CSV file:
+
+```python
+from csvplus import load_optimized_csv
+
+df = load_optimized_csv("data.csv")
+```
+
+Compare two versions of a dataset:
+
+```python
+from csvplus import data_version_diff
+from csvplus.data_version_diff import display_data_version_diff
+
+diff = data_version_diff(df_old, df_new)
+display_data_version_diff(diff)
+```
+
+---
+
+## Documentation
+
+* Browse the full API reference in the **Reference** section
+* Each function includes examples and explanations of its outputs
+
+---
+
+##  Development
+
+To run tests:
+
+```bash
+pytest
+```
+
+To build documentation locally:
+
+```bash
+quarto build
+quarto preview
+```
+
+---
+
+## 🔗 Project Links
+
+* Source code: https://github.com/UBC-MDS/DSCI_524_group37_csvplus
+* Documentation: GitHub Pages (this site)
+
+---

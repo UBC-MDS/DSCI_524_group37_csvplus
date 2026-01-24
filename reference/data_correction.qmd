@@ -1,0 +1,64 @@
+# data_correction { #csvplus.data_correction }
+
+`data_correction`
+
+A module that replaced data values to the resolved name within a column.
+Requires `pandas` and `rapidfuzz`.
+
+## Functions
+
+| Name | Description |
+| --- | --- |
+| [resolve_string_value](#csvplus.data_correction.resolve_string_value) | For all the values in the column_name of the df, find the one element |
+
+### resolve_string_value { #csvplus.data_correction.resolve_string_value }
+
+```python
+data_correction.resolve_string_value(df, column_name, resolved_names, threshold)
+```
+
+For all the values in the column_name of the df, find the one element
+in the `resolved_names` with highest similarity score computed with `fuzz.WRatio`
+(case sensitive, meaning that "Google" and "google" will not have a score of 100).
+And compare the similiarty score with the threshold to decide whether to apply
+the string replacement inplace.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name           | Type             | Description                                                                                      | Default    |
+|----------------|------------------|--------------------------------------------------------------------------------------------------|------------|
+| df             | pandas.DataFrame | The DataFrame of interest.                                                                       | _required_ |
+| column_name    | str              | The column to conduct the consolidation on. The column must exist in `df` and be of type string. | _required_ |
+| resolved_names | list             | A list of standard names for transforming the column's value to.                                 | _required_ |
+| threshold      |                  | The minimum similarity score (0 and 100) required to replace a value with a resolved name.       | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description   |
+|--------|--------|---------------|
+|        | None   |               |
+
+#### Raises {.doc-section .doc-section-raises}
+
+| Name   | Type       | Description                                                                                    |
+|--------|------------|------------------------------------------------------------------------------------------------|
+|        | ValueError | If column_name is not in df. If resolved_names is empty. If threshold is below 0 or above 100. |
+|        | TypeError  | If df[column_name] dtype is not string.                                                        |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> import pandas as pd
+>>> data = pd.DataFrame({
+...     "company_name": ["Google", "Google Inc.", "Gogle", "Microsoftt", "Micro-soft"],
+...     "num_searches": [1, 2, 3, 4, 5]
+... })
+>>> resolve_string_value(data, "company_name", ["Google", "Microsoft"], 80)
+>>> print(data)
+   company_name  num_searches
+0   Google       1
+1   Google       2
+2   Google       3
+3   Microsoft    4
+4   Microsoft    5
+```

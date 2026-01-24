@@ -1,3 +1,6 @@
+"""
+A module to load a CSV file and return a memory-optimized DataFrame.
+"""
 import pandas as pd
 
 def load_optimized_csv(

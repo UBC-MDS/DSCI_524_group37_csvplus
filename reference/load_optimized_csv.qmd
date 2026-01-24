@@ -1,0 +1,81 @@
+# load_optimized_csv { #csvplus.load_optimized_csv }
+
+`load_optimized_csv`
+
+Load a CSV file and return a memory-optimized DataFrame.
+
+## Functions
+
+| Name | Description |
+| --- | --- |
+| [load_optimized_csv](#csvplus.load_optimized_csv.load_optimized_csv) | Load a CSV file and return a memory-optimized DataFrame. |
+
+### load_optimized_csv { #csvplus.load_optimized_csv.load_optimized_csv }
+
+```python
+load_optimized_csv.load_optimized_csv(
+    filepath,
+    nrows=None,
+    usecols=None,
+    no_sparse_cols=None,
+    no_downcast_cols=None,
+    no_category_cols=None,
+    sparse_threshold=0.3,
+    category_threshold=0.7,
+    **kwargs,
+)
+```
+
+Load a CSV file and return a memory-optimized DataFrame.
+
+Automatically determines optimal chunk size based on file size and
+available system memory, then processes each chunk by downcasting
+dtypes, converting low-cardinality string columns to categorical,
+and converting high-zero-density columns to sparse. Returns a single
+concatenated, memory-optimized DataFrame with a RangeIndex.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name               | Type        | Description                                                                                                                 | Default    |
+|--------------------|-------------|-----------------------------------------------------------------------------------------------------------------------------|------------|
+| filepath           | str         | Path to the CSV file to load.                                                                                               | _required_ |
+| nrows              | int         | Maximum number of rows to read. If None, reads all rows.                                                                    | `None`     |
+| usecols            | list of str | Columns to read. If None, reads all columns.                                                                                | `None`     |
+| no_sparse_cols     | list of str | Columns to exclude from sparse conversion.                                                                                  | `None`     |
+| no_downcast_cols   | list of str | Columns to exclude from dtype downcasting.                                                                                  | `None`     |
+| no_category_cols   | list of str | Columns to exclude from categorical conversion.                                                                             | `None`     |
+| sparse_threshold   | float       | Minimum proportion of zeros required to convert a column to sparse. Must be between 0 and 1.                                | `0.3`      |
+| category_threshold | float       | Maximum ratio of unique values to total values for a string column to be converted to categorical. Must be between 0 and 1. | `0.7`      |
+| **kwargs           |             | Additional keyword arguments passed to `pandas.read_csv` (e.g., `sep`, `encoding`, `parse_dates`).                          | `{}`       |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type         | Description                                                                                                                                                                                                                   |
+|--------|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|        | pd.DataFrame | A memory-optimized DataFrame with: - Numeric columns downcasted to smallest sufficient dtype - Low-cardinality string columns converted to categorical - High-zero columns converted to SparseDtype - RangeIndex set as index |
+
+#### Raises {.doc-section .doc-section-raises}
+
+| Name   | Type                     | Description                                                                                                                                               |
+|--------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+|        | FileNotFoundError        | If `filepath` does not exist.                                                                                                                             |
+|        | ValueError               | If the file is not a valid CSV, if `sparse_threshold` or `category_threshold` are not in [0, 1], or if `usecols` contains columns not present in the CSV. |
+|        | TypeError                | If arguments are of incorrect types.                                                                                                                      |
+|        | pd.errors.EmptyDataError | If the CSV file is empty or contains only headers.                                                                                                        |
+|        | MemoryError              | If the final DataFrame exceeds available memory.                                                                                                          |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> df = load_optimized_csv(
+...     "large_dataset.csv",
+...     nrows=100000,
+...     usecols=["id", "value", "category", "status"],
+...     no_sparse_cols=["id"],
+...     no_downcast_cols=["value"],
+...     no_category_cols=["id"],
+...     sparse_threshold=0.6,
+...     category_threshold=0.3,
+... )
+>>> df.info(memory_usage="deep")
+```

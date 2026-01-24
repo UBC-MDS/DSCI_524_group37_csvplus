@@ -1,0 +1,34 @@
+# Function reference {.doc .doc-index}
+
+## Data Loading
+
+Function for loading a CSV file and return a memory-optimized DataFrame.
+
+| | |
+| --- | --- |
+| [load_optimized_csv](load_optimized_csv.qmd#csvplus.load_optimized_csv) | Load a CSV file and return a memory-optimized DataFrame. |
+
+## Data Comparison
+
+Function for summarizing structural and statistical differences between two DataFrame versions.
+
+| | |
+| --- | --- |
+| [data_version_diff](data_version_diff.qmd#csvplus.data_version_diff) | A module that summarizes structural and statistical differences between two DataFrame versions. |
+| [data_version_diff.display_data_version_diff](data_version_diff.display_data_version_diff.qmd#csvplus.data_version_diff.display_data_version_diff) | Print a formatted, human-readable summary of DataFrame version differences. |
+
+## Data Cleaning
+
+Function for resolving inconsistent string values to standardized names using fuzzy matching.
+
+| | |
+| --- | --- |
+| [data_correction](data_correction.qmd#csvplus.data_correction) | A module that replaced data values to the resolved name within a column. |
+
+## Reporting
+
+Function for generating detailed numeric and categorical summary reports, including missingness and confidence intervals.
+
+| | |
+| --- | --- |
+| [generate_report](generate_report.qmd#csvplus.generate_report) | A module that generates a summary report given an input dataframe. |

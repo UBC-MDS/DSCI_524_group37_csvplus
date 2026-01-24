@@ -1,0 +1,19 @@
+website:
+  sidebar:
+  - contents:
+    - reference/index.qmd
+    - contents:
+      - reference/load_optimized_csv.qmd
+      section: Data Loading
+    - contents:
+      - reference/data_version_diff.qmd
+      - reference/data_version_diff.display_data_version_diff.qmd
+      section: Data Comparison
+    - contents:
+      - reference/data_correction.qmd
+      section: Data Cleaning
+    - contents:
+      - reference/generate_report.qmd
+      section: Reporting
+    id: reference
+  - id: dummy-sidebar
