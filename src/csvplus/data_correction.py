@@ -3,7 +3,8 @@ A module that replaced data values to the resolved name within a column.
 Requires `pandas` and `rapidfuzz`.
 """
 
-import pandas as pd
+
+from pandas.api.types import is_string_dtype
 from rapidfuzz import process, fuzz
 
 def resolve_string_value(df, column_name, resolved_names, threshold):
@@ -19,7 +20,8 @@ def resolve_string_value(df, column_name, resolved_names, threshold):
     df : pandas.DataFrame
         The DataFrame of interest.
     column_name : str
-        The column to conduct the consolidation on.
+        The column to conduct the consolidation on. The column must exist in `df` and
+        be of type string.
     resolved_names : list
         A list of standard names for transforming the column's value to.
     threshold: float
@@ -35,26 +37,30 @@ def resolve_string_value(df, column_name, resolved_names, threshold):
         If column_name is not in df.
         If resolved_names is empty.
         If threshold is below 0 or above 100.
+    TypeError
+        If df[column_name] dtype is not string.
 
     Examples
     --------
     >>> import pandas as pd
     >>> data = pd.DataFrame({
     ...     "company_name": ["Google", "Google Inc.", "Gogle", "Microsoftt", "Micro-soft"],
-    ...     "location": ["Mt. view", "Mt. view", "Mt. view", "Redmond", "Redmond"]
+    ...     "num_searches": [1, 2, 3, 4, 5]
     ... })
     >>> resolve_string_value(data, "company_name", ["Google", "Microsoft"], 80)
-    >>> data
-       company_name  location
-    0   Google       Mt. view
-    1   Google       Mt. view
-    2   Google       Mt. view
-    3   Microsoft    Redmond
-    4   Microsoft    Redmond
+    >>> print(data)
+       company_name  num_searches
+    0   Google       1
+    1   Google       2
+    2   Google       3
+    3   Microsoft    4
+    4   Microsoft    5
     """
     # checks
     if column_name not in df.columns:
         raise ValueError("The given column_name does not exist.")
+    elif not is_string_dtype(df[column_name]):
+        raise TypeError("The column is not of type string.")
     elif not resolved_names:
         raise ValueError("The given resolved_names is empty.")
     elif (threshold < 0) or (threshold > 100):
