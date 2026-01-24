@@ -2,7 +2,7 @@ name: csvplus
 channels:
   - conda-forge
 dependencies:
-  - pandas
+  - pandas=2.3.3
   - rapidfuzz
   - pytest
   - numpy
