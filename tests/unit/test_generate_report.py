@@ -51,8 +51,8 @@ class TestInputValidation:
         with pytest.raises(ValueError):
             summary_report(df, top_n=-1)
 
-    def test_large_top_n_exceeds_unique_values(self):
-        """Test that top_n larger than the number of unique values 
+    def test_top_n_greater_than_unique(self):
+        """Test that top_n larger than the number of unique values,
         returns all unique values without error."""
         df = pd.DataFrame({'x': ['a', 'b', 'c', 'c']})
         _, cat_stats = summary_report(df, top_n=100)
