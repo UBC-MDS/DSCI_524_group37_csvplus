@@ -2,42 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/CODE_OF_CONDUCT.html</loc>
-    <lastmod>2026-01-25T06:36:00.795Z</lastmod>
+    <lastmod>2026-01-25T06:43:34.199Z</lastmod>
   </url>
   <url>
     <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/reference/data_version_diff.html</loc>
-    <lastmod>2026-01-25T06:36:38.419Z</lastmod>
+    <lastmod>2026-01-25T06:44:08.125Z</lastmod>
   </url>
   <url>
     <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/reference/data_version_diff.display_data_version_diff.html</loc>
-    <lastmod>2026-01-25T06:36:38.420Z</lastmod>
+    <lastmod>2026-01-25T06:44:08.126Z</lastmod>
   </url>
   <url>
     <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/reference/generate_report.html</loc>
-    <lastmod>2026-01-25T06:36:38.437Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/DEVELOPMENT.html</loc>
-    <lastmod>2026-01-25T06:36:00.795Z</lastmod>
-  </url>
-  <url>
-    <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/CHANGELOG.html</loc>
-    <lastmod>2026-01-25T06:36:00.795Z</lastmod>
+    <lastmod>2026-01-25T06:44:08.144Z</lastmod>
   </url>
   <url>
     <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/CONTRIBUTING.html</loc>
-    <lastmod>2026-01-25T06:36:00.795Z</lastmod>
+    <lastmod>2026-01-25T06:43:34.199Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/CHANGELOG.html</loc>
+    <lastmod>2026-01-25T06:43:34.199Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/DEVELOPMENT.html</loc>
+    <lastmod>2026-01-25T06:43:34.200Z</lastmod>
+  </url>
+  <url>
+    <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/index.html</loc>
+    <lastmod>2026-01-25T06:43:34.200Z</lastmod>
   </url>
   <url>
     <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/reference/index.html</loc>
-    <lastmod>2026-01-25T06:36:38.380Z</lastmod>
+    <lastmod>2026-01-25T06:44:08.083Z</lastmod>
   </url>
   <url>
     <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/reference/load_optimized_csv.html</loc>
-    <lastmod>2026-01-25T06:36:38.412Z</lastmod>
+    <lastmod>2026-01-25T06:44:08.117Z</lastmod>
   </url>
   <url>
     <loc>https://UBC-MDS.github.io/DSCI_524_group37_csvplus/reference/data_correction.html</loc>
-    <lastmod>2026-01-25T06:36:38.428Z</lastmod>
+    <lastmod>2026-01-25T06:44:08.135Z</lastmod>
   </url>
 </urlset>

@@ -107,41 +107,6 @@
     ]
   },
   {
-    "objectID": "DEVELOPMENT.html",
-    "href": "DEVELOPMENT.html",
-    "title": "Development Guide",
-    "section": "",
-    "text": "Welcome to your shiny new package. This page will help you get started with using Hatch to manage your package.\nIf you look at your project, you will see that a pyproject.toml file. This file stores both your package configuration and settings for development tools like Hatch that you will use to work on your package.\nThis file is written using a .toml format. You can learn more about toml here. Here’s the TL&DR:\n\nEach [] section in the toml file is called a table.\nYou can nest tables with double brackets like this[[]]\nTables contain information about a element that you want to configure.\n\nWe are using Hatch as the default packaging tool. Hatch allows you to configure and run environments and scripts similar to workflow tools like tox or nox.\nHach, by default, uses virtual environments (venv) to manage environments. But you can configure it to use other environment tools.Read the hatch documentation to learn more about environments.\nFor this template, we have set up Hatch environments for you to use. At the bottom of your pyproject.toml file, notice a hatch environment section that looks like this:\n########################################\n# Hatch Environments\n########################################\nBelow is the Hatch environment to install your package. Notice that it defines pip and twine as two packages that the environment needs.\n[tool.hatch.envs.build]\ndescription = \"\"\"Test the installation the package.\"\"\"\ndependencies = [\n    \"pip\",\n    \"twine\",\n]\nThe table below defines the scripts that you will run build and check your package.\n[tool.hatch.envs.build.scripts]\ncheck = [\n    \"pip check\",\n    \"hatch build {args:--clean}\",\n    \"twine check dist/*\",\n]\ndetached = true\nYou can enter that environment to check it out:\n$ hatch shell build\nIf you run pip list, in the environment, twine will be there:\n$ pip list\nHatch by default, installs your package in editable mode (-e) into its virtual environments. But if detached=True is set, then it will skip installing your package into the virtual enviornment.\n\n\nBelow you see the Hatch environment test table.\ntool.hatch.envs says, “Hey, Hatch, this is the definition for an environment.” test is the name of the environment.\nThe environment below defines the dependencies that Hatch needs to install into the environment named test.\n[tool.hatch.envs.test]\ndescription = \"\"\"Run the test suite.\"\"\"\ndependencies = [\n    \"pytest\",\n    \"pytest-cov\",\n    \"pytest-raises\",\n    \"pytest-randomly\",\n    \"pytest-xdist\",\n]\nTo enter a Hatch environment use:\nhatch shell environmentname\nSo you can enter the test environment above with:\nhatch shell test\n\n\n\nIf the environment has a matrix associated with it, that tells Hatch to run the test scripts across different Python versions.\n[[tool.hatch.envs.test.matrix]]\npython = [\"3.10\", \"3.11\", \"3.12\", \"3.13\"]\nIf you run hatch shell test, you will see the output below. To enter an environment with a matrix attached to it, you need to pick the Python environment version that you want to open.\n$ hatch shell test                           \nEnvironment `test` defines a matrix, choose one of the following instead:\n\ntest.py3.10\ntest.py3.11\ntest.py3.12\ntest.py3.13\nOpen the Python 3.13 environment like this:\n$ hatch shell test.py3.13\nTo leave an environment use:\n$ deactivate\n\n\n\nIn the tests section of your pyproject.toml, you will see a tool.hatch.envs.test.scripts table.\nThis table defines the commands that you want Hatch to run in the test environment. Notice that the script has one command called run.\n[tool.hatch.envs.test.scripts]\nrun = \"pytest {args:--cov=greatproject --cov-report=term-missing}\"\nTo run this script , use:\nhatch run test:run\n\nhatch run: calls Hatch and tells it that it will be running a command\ntest:run: defines the environment you want it to run (test) and defines the name of the “script” to berun.\n\nIf you have a Hatch matrix setup for tests, it will both install the necessary Python version using UV and run your tests on each version of the Python versions that you declare in the matrix table. In this case, there are 4 Python versions in the environment, so your tests will run 4 times, once in each Python version listed in the matrix table.\n@lwasser ➜ /workspaces/pyopensci-scipy25-create-python-package (main) $ hatch run test:run\n──────────────────────────────────────────────────────────────────────── test.py3.10 ────────────────────────────────────────────────────────────────────────\n==================================================================== test session starts ====================================================================\nplatform linux -- Python 3.10.16, pytest-8.4.1, pluggy-1.6.0\nUsing --randomly-seed=1490740387\nrootdir: /workspaces/pyopensci-scipy25-create-python-package\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: xdist-3.8.0, randomly-3.16.0, raises-0.11, cov-6.2.1\ncollected 2 items                                                                                                                                           \n\ntests/system/test_import.py .                                                                                                                         [ 50%]\ntests/unit/test_example.py .                                                                                                                          [100%]\n\n====================================================================== tests coverage =======================================================================\n_____________________________________________________ coverage: platform linux, python 3.10.16-final-0 ______________________________________________________\n\nName                           Stmts   Miss Branch BrPart    Cover   Missing\n----------------------------------------------------------------------------\nsrc/greatproject/__init__.py       0      0      0      0  100.00%\nsrc/greatproject/example.py        2      0      0      0  100.00%\n----------------------------------------------------------------------------\nTOTAL                              2      0      0      0  100.00%\n===================================================================== 2 passed in 0.05s =====================================================================\n──────────────────────────────────────────────────────────────────────── test.py3.11 ────────────────────────────────────────────────────────────────────────\n==================================================================== test session starts ====================================================================\nplatform linux -- Python 3.11.12, pytest-8.4.1, pluggy-1.6.0\nUsing --randomly-seed=1596865075\nrootdir: /workspaces/pyopensci-scipy25-create-python-package\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: xdist-3.8.0, randomly-3.16.0, raises-0.11, cov-6.2.1\ncollected 2 items                                                                                                                                           \n\ntests/system/test_import.py .                                                                                                                         [ 50%]\ntests/unit/test_example.py .                                                                                                                          [100%]\n\n====================================================================== tests coverage =======================================================================\n_____________________________________________________ coverage: platform linux, python 3.11.12-final-0 ______________________________________________________\n\nName                           Stmts   Miss Branch BrPart    Cover   Missing\n----------------------------------------------------------------------------\nsrc/greatproject/__init__.py       0      0      0      0  100.00%\nsrc/greatproject/example.py        2      0      0      0  100.00%\n----------------------------------------------------------------------------\nTOTAL                              2      0      0      0  100.00%\n===================================================================== 2 passed in 0.05s =====================================================================\n\n\n\nYou can build your package using the environment and scripts defined in the build tables:\nhatch run build:check\nThis script builds and checks the output distribution files of your package.\nThis build environment table declares that pip and twine should be added to that environment. Adding pip to the environment ensures that it is a current, up-to-date version.\n[tool.hatch.envs.build]\ndescription = \"\"\"Build and test your package.\"\"\"\ndependencies = [\n    \"pip\",\n    \"twine\",\n]\ndetached = true\n# This table installs created the command hatch run install:check which will build and check your package.\n[tool.hatch.envs.install.scripts]\ncheck = [\n    \"pip check\",\n    \"hatch build {args:--clean}\",\n    \"twine check dist/*\",\n]\nThis uses the above environment and tells hatch to run\n\npip check, # verifies your dependencies\nhatch build --clean\n\ntwine check dist/* # this checks your distribution for metadata and other potential issues. to build and test your package."
-  },
-  {
-    "objectID": "DEVELOPMENT.html#build-your-package",
-    "href": "DEVELOPMENT.html#build-your-package",
-    "title": "Development Guide",
-    "section": "",
-    "text": "You can build your package using the environment and scripts defined in the build tables:\nhatch run build:check\nThis script builds and checks the output distribution files of your package.\nThis build environment table declares that pip and twine should be added to that environment. Adding pip to the environment ensures that it is a current, up-to-date version.\n[tool.hatch.envs.build]\ndescription = \"\"\"Build and test your package.\"\"\"\ndependencies = [\n    \"pip\",\n    \"twine\",\n]\ndetached = true\n# This table installs created the command hatch run install:check which will build and check your package.\n[tool.hatch.envs.install.scripts]\ncheck = [\n    \"pip check\",\n    \"hatch build {args:--clean}\",\n    \"twine check dist/*\",\n]\nThis uses the above environment and tells hatch to run\n\npip check, # verifies your dependencies\nhatch build --clean\n\ntwine check dist/* # this checks your distribution for metadata and other potential issues. to build and test your package."
-  },
-  {
-    "objectID": "CHANGELOG.html",
-    "href": "CHANGELOG.html",
-    "title": "Changelog",
-    "section": "",
-    "text": "All notable changes to this project will be documented in this file.\nThe format is based on Keep a Changelog, and this project adheres to Semantic Versioning.\n\n\n\nUpcoming features and fixes\n\n\n\n\n\nFirst release"
-  },
-  {
-    "objectID": "CHANGELOG.html#unreleased",
-    "href": "CHANGELOG.html#unreleased",
-    "title": "Changelog",
-    "section": "",
-    "text": "Upcoming features and fixes"
-  },
-  {
-    "objectID": "CHANGELOG.html#section",
-    "href": "CHANGELOG.html#section",
-    "title": "Changelog",
-    "section": "",
-    "text": "First release"
-  },
-  {
     "objectID": "CONTRIBUTING.html",
     "href": "CONTRIBUTING.html",
     "title": "Contributing",
@@ -217,6 +182,111 @@
     "title": "Contributing",
     "section": "",
     "text": "Technical decisions are discussed during team meetings or in GitHub Issues\nIf consensus cannot be reached, the team will vote\nBlocking issues should be raised as early as possible to avoid deadline risk"
+  },
+  {
+    "objectID": "CHANGELOG.html",
+    "href": "CHANGELOG.html",
+    "title": "Changelog",
+    "section": "",
+    "text": "All notable changes to this project will be documented in this file.\nThe format is based on Keep a Changelog, and this project adheres to Semantic Versioning.\n\n\n\nUpcoming features and fixes\n\n\n\n\n\nFirst release"
+  },
+  {
+    "objectID": "CHANGELOG.html#unreleased",
+    "href": "CHANGELOG.html#unreleased",
+    "title": "Changelog",
+    "section": "",
+    "text": "Upcoming features and fixes"
+  },
+  {
+    "objectID": "CHANGELOG.html#section",
+    "href": "CHANGELOG.html#section",
+    "title": "Changelog",
+    "section": "",
+    "text": "First release"
+  },
+  {
+    "objectID": "DEVELOPMENT.html",
+    "href": "DEVELOPMENT.html",
+    "title": "Development Guide",
+    "section": "",
+    "text": "Welcome to your shiny new package. This page will help you get started with using Hatch to manage your package.\nIf you look at your project, you will see that a pyproject.toml file. This file stores both your package configuration and settings for development tools like Hatch that you will use to work on your package.\nThis file is written using a .toml format. You can learn more about toml here. Here’s the TL&DR:\n\nEach [] section in the toml file is called a table.\nYou can nest tables with double brackets like this[[]]\nTables contain information about a element that you want to configure.\n\nWe are using Hatch as the default packaging tool. Hatch allows you to configure and run environments and scripts similar to workflow tools like tox or nox.\nHach, by default, uses virtual environments (venv) to manage environments. But you can configure it to use other environment tools.Read the hatch documentation to learn more about environments.\nFor this template, we have set up Hatch environments for you to use. At the bottom of your pyproject.toml file, notice a hatch environment section that looks like this:\n########################################\n# Hatch Environments\n########################################\nBelow is the Hatch environment to install your package. Notice that it defines pip and twine as two packages that the environment needs.\n[tool.hatch.envs.build]\ndescription = \"\"\"Test the installation the package.\"\"\"\ndependencies = [\n    \"pip\",\n    \"twine\",\n]\nThe table below defines the scripts that you will run build and check your package.\n[tool.hatch.envs.build.scripts]\ncheck = [\n    \"pip check\",\n    \"hatch build {args:--clean}\",\n    \"twine check dist/*\",\n]\ndetached = true\nYou can enter that environment to check it out:\n$ hatch shell build\nIf you run pip list, in the environment, twine will be there:\n$ pip list\nHatch by default, installs your package in editable mode (-e) into its virtual environments. But if detached=True is set, then it will skip installing your package into the virtual enviornment.\n\n\nBelow you see the Hatch environment test table.\ntool.hatch.envs says, “Hey, Hatch, this is the definition for an environment.” test is the name of the environment.\nThe environment below defines the dependencies that Hatch needs to install into the environment named test.\n[tool.hatch.envs.test]\ndescription = \"\"\"Run the test suite.\"\"\"\ndependencies = [\n    \"pytest\",\n    \"pytest-cov\",\n    \"pytest-raises\",\n    \"pytest-randomly\",\n    \"pytest-xdist\",\n]\nTo enter a Hatch environment use:\nhatch shell environmentname\nSo you can enter the test environment above with:\nhatch shell test\n\n\n\nIf the environment has a matrix associated with it, that tells Hatch to run the test scripts across different Python versions.\n[[tool.hatch.envs.test.matrix]]\npython = [\"3.10\", \"3.11\", \"3.12\", \"3.13\"]\nIf you run hatch shell test, you will see the output below. To enter an environment with a matrix attached to it, you need to pick the Python environment version that you want to open.\n$ hatch shell test                           \nEnvironment `test` defines a matrix, choose one of the following instead:\n\ntest.py3.10\ntest.py3.11\ntest.py3.12\ntest.py3.13\nOpen the Python 3.13 environment like this:\n$ hatch shell test.py3.13\nTo leave an environment use:\n$ deactivate\n\n\n\nIn the tests section of your pyproject.toml, you will see a tool.hatch.envs.test.scripts table.\nThis table defines the commands that you want Hatch to run in the test environment. Notice that the script has one command called run.\n[tool.hatch.envs.test.scripts]\nrun = \"pytest {args:--cov=greatproject --cov-report=term-missing}\"\nTo run this script , use:\nhatch run test:run\n\nhatch run: calls Hatch and tells it that it will be running a command\ntest:run: defines the environment you want it to run (test) and defines the name of the “script” to berun.\n\nIf you have a Hatch matrix setup for tests, it will both install the necessary Python version using UV and run your tests on each version of the Python versions that you declare in the matrix table. In this case, there are 4 Python versions in the environment, so your tests will run 4 times, once in each Python version listed in the matrix table.\n@lwasser ➜ /workspaces/pyopensci-scipy25-create-python-package (main) $ hatch run test:run\n──────────────────────────────────────────────────────────────────────── test.py3.10 ────────────────────────────────────────────────────────────────────────\n==================================================================== test session starts ====================================================================\nplatform linux -- Python 3.10.16, pytest-8.4.1, pluggy-1.6.0\nUsing --randomly-seed=1490740387\nrootdir: /workspaces/pyopensci-scipy25-create-python-package\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: xdist-3.8.0, randomly-3.16.0, raises-0.11, cov-6.2.1\ncollected 2 items                                                                                                                                           \n\ntests/system/test_import.py .                                                                                                                         [ 50%]\ntests/unit/test_example.py .                                                                                                                          [100%]\n\n====================================================================== tests coverage =======================================================================\n_____________________________________________________ coverage: platform linux, python 3.10.16-final-0 ______________________________________________________\n\nName                           Stmts   Miss Branch BrPart    Cover   Missing\n----------------------------------------------------------------------------\nsrc/greatproject/__init__.py       0      0      0      0  100.00%\nsrc/greatproject/example.py        2      0      0      0  100.00%\n----------------------------------------------------------------------------\nTOTAL                              2      0      0      0  100.00%\n===================================================================== 2 passed in 0.05s =====================================================================\n──────────────────────────────────────────────────────────────────────── test.py3.11 ────────────────────────────────────────────────────────────────────────\n==================================================================== test session starts ====================================================================\nplatform linux -- Python 3.11.12, pytest-8.4.1, pluggy-1.6.0\nUsing --randomly-seed=1596865075\nrootdir: /workspaces/pyopensci-scipy25-create-python-package\nconfigfile: pyproject.toml\ntestpaths: tests\nplugins: xdist-3.8.0, randomly-3.16.0, raises-0.11, cov-6.2.1\ncollected 2 items                                                                                                                                           \n\ntests/system/test_import.py .                                                                                                                         [ 50%]\ntests/unit/test_example.py .                                                                                                                          [100%]\n\n====================================================================== tests coverage =======================================================================\n_____________________________________________________ coverage: platform linux, python 3.11.12-final-0 ______________________________________________________\n\nName                           Stmts   Miss Branch BrPart    Cover   Missing\n----------------------------------------------------------------------------\nsrc/greatproject/__init__.py       0      0      0      0  100.00%\nsrc/greatproject/example.py        2      0      0      0  100.00%\n----------------------------------------------------------------------------\nTOTAL                              2      0      0      0  100.00%\n===================================================================== 2 passed in 0.05s =====================================================================\n\n\n\nYou can build your package using the environment and scripts defined in the build tables:\nhatch run build:check\nThis script builds and checks the output distribution files of your package.\nThis build environment table declares that pip and twine should be added to that environment. Adding pip to the environment ensures that it is a current, up-to-date version.\n[tool.hatch.envs.build]\ndescription = \"\"\"Build and test your package.\"\"\"\ndependencies = [\n    \"pip\",\n    \"twine\",\n]\ndetached = true\n# This table installs created the command hatch run install:check which will build and check your package.\n[tool.hatch.envs.install.scripts]\ncheck = [\n    \"pip check\",\n    \"hatch build {args:--clean}\",\n    \"twine check dist/*\",\n]\nThis uses the above environment and tells hatch to run\n\npip check, # verifies your dependencies\nhatch build --clean\n\ntwine check dist/* # this checks your distribution for metadata and other potential issues. to build and test your package."
+  },
+  {
+    "objectID": "DEVELOPMENT.html#build-your-package",
+    "href": "DEVELOPMENT.html#build-your-package",
+    "title": "Development Guide",
+    "section": "",
+    "text": "You can build your package using the environment and scripts defined in the build tables:\nhatch run build:check\nThis script builds and checks the output distribution files of your package.\nThis build environment table declares that pip and twine should be added to that environment. Adding pip to the environment ensures that it is a current, up-to-date version.\n[tool.hatch.envs.build]\ndescription = \"\"\"Build and test your package.\"\"\"\ndependencies = [\n    \"pip\",\n    \"twine\",\n]\ndetached = true\n# This table installs created the command hatch run install:check which will build and check your package.\n[tool.hatch.envs.install.scripts]\ncheck = [\n    \"pip check\",\n    \"hatch build {args:--clean}\",\n    \"twine check dist/*\",\n]\nThis uses the above environment and tells hatch to run\n\npip check, # verifies your dependencies\nhatch build --clean\n\ntwine check dist/* # this checks your distribution for metadata and other potential issues. to build and test your package."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "csvplus",
+    "section": "",
+    "text": "csvplus is a lightweight Python package that provides practical utilities for loading, comparing, cleaning, and summarizing tabular data.\nWhile some functions operate directly on CSV files, others work with pandas DataFrames, making csvplus easy to integrate into existing data analysis workflows.\nIt is designed for data scientists, analysts, and students who work with evolving datasets and want clear, interpretable insights into data structure, quality, and change over time."
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "csvplus",
+    "section": "",
+    "text": "csvplus is a lightweight Python package that provides practical utilities for loading, comparing, cleaning, and summarizing tabular data.\nWhile some functions operate directly on CSV files, others work with pandas DataFrames, making csvplus easy to integrate into existing data analysis workflows.\nIt is designed for data scientists, analysts, and students who work with evolving datasets and want clear, interpretable insights into data structure, quality, and change over time."
+  },
+  {
+    "objectID": "index.html#key-features",
+    "href": "index.html#key-features",
+    "title": "csvplus",
+    "section": "Key Features",
+    "text": "Key Features\ncsvplus supports common data preprocessing and auditing tasks, including:\n\nMemory-efficient CSV loading with automatic dtype optimization\nDataset version comparison to identify schema, value, and data type changes\nData cleaning and standardization, including resolving spelling variations\nExploratory summary reports for numeric and categorical variables"
+  },
+  {
+    "objectID": "index.html#core-functionality",
+    "href": "index.html#core-functionality",
+    "title": "csvplus",
+    "section": "Core Functionality",
+    "text": "Core Functionality\nThe main functions provided by the package include:\n\nload_optimized_csv\nLoad CSV files with automatic data type downcasting to reduce memory usage.\ndata_version_diff\nCompare two versions of a dataset and summarize differences in schema, row counts, missing values, and numeric statistics.\nresolve_string_value\nStandardize categorical values by consolidating spelling variations using fuzzy matching.\nsummary_report\nGenerate comprehensive summary statistics for numeric and categorical columns, including missingness and confidence intervals.\n\nDetailed API documentation and examples for each function are available in the Reference section."
+  },
+  {
+    "objectID": "index.html#getting-started",
+    "href": "index.html#getting-started",
+    "title": "csvplus",
+    "section": "Getting Started",
+    "text": "Getting Started\n\nInstallation (from Test PyPI)\npip install --index-url https://test.pypi.org/simple/ \\\n            --extra-index-url https://pypi.org/simple \\\n            csvplus\n\nNote (macOS users): If installation fails due to rapidfuzz, install it first:\npip install rapidfuzz"
+  },
+  {
+    "objectID": "index.html#quick-usage-examples",
+    "href": "index.html#quick-usage-examples",
+    "title": "csvplus",
+    "section": "Quick Usage Examples",
+    "text": "Quick Usage Examples\n\nLoad a CSV with optimized memory usage\nfrom csvplus.load_optimized_csv import load_optimized_csv\n\ndf = load_optimized_csv(\"large_dataset.csv\")\nprint(df.dtypes)\n\n\nCompare two dataset versions\nfrom csvplus.data_version_diff import data_version_diff, display_data_version_diff\n\ndiff = data_version_diff(df_old, df_new)\ndisplay_data_version_diff(diff)\n\n\nResolve inconsistent categorical values\nfrom csvplus.data_correction import resolve_string_value\n\nresolve_string_value(\n    df,\n    column=\"company\",\n    canonical_values=[\"Google\", \"Microsoft\"],\n    threshold=80\n)\n\n\nGenerate a summary report\nfrom csvplus.generate_report import summary_report\n\nnumeric_stats, categorical_stats = summary_report(df)\nnumeric_stats.head()"
+  },
+  {
+    "objectID": "index.html#for-developers",
+    "href": "index.html#for-developers",
+    "title": "csvplus",
+    "section": "For Developers",
+    "text": "For Developers\n\nDevelopment Setup\nconda env create -f environment.yml\nconda activate csvplus\n\n\nRun Tests and Coverage\npytest --cov=csvplus --cov-report=term-missing\n\n\nBuild and Preview Documentation\nquartodoc build\nquarto preview\nquarto render"
+  },
+  {
+    "objectID": "index.html#project-links",
+    "href": "index.html#project-links",
+    "title": "csvplus",
+    "section": "Project Links",
+    "text": "Project Links\n\nSource code: https://github.com/UBC-MDS/DSCI_524_group37_csvplus\nFull documentation (this site): https://ubc-mds.github.io/DSCI_524_group37_csvplus/"
+  },
+  {
+    "objectID": "index.html#contributors",
+    "href": "index.html#contributors",
+    "title": "csvplus",
+    "section": "Contributors",
+    "text": "Contributors\n\nAlan Liu\nOswin Gan\nPurity Jangaya\nRalah Aaqil"
+  },
+  {
+    "objectID": "index.html#license",
+    "href": "index.html#license",
+    "title": "csvplus",
+    "section": "License",
+    "text": "License\nFree software distributed under the MIT License."
   },
   {
     "objectID": "reference/index.html",
