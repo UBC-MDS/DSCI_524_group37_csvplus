@@ -7,6 +7,7 @@ Requires `pandas` and `rapidfuzz`.
 from pandas.api.types import is_string_dtype
 from rapidfuzz import process, fuzz
 
+
 def resolve_string_value(df, column_name, resolved_names, threshold):
     """
     For all the values in the column_name of the df, find the one element
@@ -65,15 +66,15 @@ def resolve_string_value(df, column_name, resolved_names, threshold):
         raise ValueError("The given resolved_names is empty.")
     elif (threshold < 0) or (threshold > 100):
         raise ValueError("The threshold value is out of range.")
-    
+
     # Adopted MS Copilot solution to: "How to use `rapidfuzz.process.extractOne()`"?"
     # Return closest string in `choices` if similarity score based on `fuzz.WRatio` is
-    # above threshold. Otherwise, return the word itself. 
+    # above threshold. Otherwise, return the word itself.
     def find_closest(query, choices, threshold):
         result = process.extractOne(query, choices, scorer=fuzz.WRatio)
         if result and result[1] >= threshold:
             return result[0]
         else:
             return query
-    
+
     df[column_name] = df[column_name].apply(lambda x: find_closest(x, resolved_names, threshold))

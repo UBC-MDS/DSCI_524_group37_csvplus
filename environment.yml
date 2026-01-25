@@ -11,4 +11,7 @@ dependencies:
   - quartodoc==0.11.1
   - pip==25.3
   - pip:
-    - faker==40.1.2
+    - faker
+    - flake8
+     
+  - pytest-cov
