@@ -4,7 +4,7 @@
     "href": "reference/data_correction.html",
     "title": "data_correction",
     "section": "",
-    "text": "data_correction\nA module that replaced data values to the resolved name within a column. Requires pandas and rapidfuzz.\n\n\n\n\n\nName\nDescription\n\n\n\n\nresolve_string_value\nFor all the values in the column_name of the df, find the one element\n\n\n\n\n\ndata_correction.resolve_string_value(df, column_name, resolved_names, threshold)\nFor all the values in the column_name of the df, find the one element in the resolved_names with highest similarity score computed with fuzz.WRatio (case sensitive, meaning that “Google” and “google” will not have a score of 100). And compare the similiarty score with the threshold to decide whether to apply the string replacement inplace.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf\npandas.DataFrame\nThe DataFrame of interest.\nrequired\n\n\ncolumn_name\nstr\nThe column to conduct the consolidation on. The column must exist in df and be of type string.\nrequired\n\n\nresolved_names\nlist\nA list of standard names for transforming the column’s value to.\nrequired\n\n\nthreshold\n\nThe minimum similarity score (0 and 100) required to replace a value with a resolved name.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf column_name is not in df. If resolved_names is empty. If threshold is below 0 or above 100.\n\n\n\nTypeError\nIf df[column_name] dtype is not string.\n\n\n\n\n\n\n&gt;&gt;&gt; import pandas as pd\n&gt;&gt;&gt; data = pd.DataFrame({\n...     \"company_name\": [\"Google\", \"Google Inc.\", \"Gogle\", \"Microsoftt\", \"Micro-soft\"],\n...     \"num_searches\": [1, 2, 3, 4, 5]\n... })\n&gt;&gt;&gt; resolve_string_value(data, \"company_name\", [\"Google\", \"Microsoft\"], 80)\n&gt;&gt;&gt; print(data)\n   company_name  num_searches\n0   Google       1\n1   Google       2\n2   Google       3\n3   Microsoft    4\n4   Microsoft    5",
+    "text": "data_correction\nA module that replace data values to the resolved name within a column. Requires pandas and rapidfuzz.\n\n\n\n\n\nName\nDescription\n\n\n\n\nresolve_string_value\nFor all the values in the column_name of the df, find the one element\n\n\n\n\n\ndata_correction.resolve_string_value(df, column_name, resolved_names, threshold)\nFor all the values in the column_name of the df, find the one element in the resolved_names with highest similarity score computed with fuzz.WRatio (case sensitive, meaning that “Google” and “google” will not have a score of 100). And compare the similiarty score with the threshold to decide whether to apply the string replacement inplace.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\ndf\npandas.DataFrame\nThe DataFrame of interest.\nrequired\n\n\ncolumn_name\nstr\nThe column to conduct the consolidation on. The column must exist in df and be of type string.\nrequired\n\n\nresolved_names\nlist\nA list of standard names for transforming the column’s value to.\nrequired\n\n\nthreshold\n\nThe minimum similarity score (0 and 100) required to replace a value with a resolved name.\nrequired\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nNone\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nValueError\nIf column_name is not in df. If resolved_names is empty. If threshold is below 0 or above 100.\n\n\n\nTypeError\nIf df[column_name] dtype is not string.\n\n\n\n\n\n\n&gt;&gt;&gt; import pandas as pd\n&gt;&gt;&gt; data = pd.DataFrame({\n...     \"company_name\": [\"Google\", \"Google Inc.\", \"Gogle\", \"Microsoftt\", \"Micro-soft\"],\n...     \"num_searches\": [1, 2, 3, 4, 5]\n... })\n&gt;&gt;&gt; resolve_string_value(data, \"company_name\", [\"Google\", \"Microsoft\"], 80)\n&gt;&gt;&gt; print(data)\n   company_name  num_searches\n0   Google       1\n1   Google       2\n2   Google       3\n3   Microsoft    4\n4   Microsoft    5",
     "crumbs": [
       "Reference",
       "Data Cleaning",
@@ -28,7 +28,7 @@
     "href": "reference/index.html",
     "title": "Function reference",
     "section": "",
-    "text": "Function for loading a CSV file and return a memory-optimized DataFrame.\n\n\n\nload_optimized_csv\nLoad a CSV file and return a memory-optimized DataFrame.\n\n\n\n\n\n\nFunction for summarizing structural and statistical differences between two DataFrame versions.\n\n\n\ndata_version_diff\nA module that summarizes structural and statistical differences between two DataFrame versions.\n\n\ndata_version_diff.display_data_version_diff\nPrint a formatted, human-readable summary of DataFrame version differences.\n\n\n\n\n\n\nFunction for resolving inconsistent string values to standardized names using fuzzy matching.\n\n\n\ndata_correction\nA module that replaced data values to the resolved name within a column.\n\n\n\n\n\n\nFunction for generating detailed numeric and categorical summary reports, including missingness and confidence intervals.\n\n\n\ngenerate_report\nA module that generates a summary report given an input dataframe.",
+    "text": "Function for loading a CSV file and return a memory-optimized DataFrame.\n\n\n\nload_optimized_csv\nA module to load a CSV file and return a memory-optimized DataFrame.\n\n\n\n\n\n\nFunction for summarizing structural and statistical differences between two DataFrame versions.\n\n\n\ndata_version_diff\nA module that summarizes structural and statistical differences between two DataFrame versions.\n\n\ndata_version_diff.display_data_version_diff\nPrint a formatted, human-readable summary of DataFrame version differences.\n\n\n\n\n\n\nFunction for resolving inconsistent string values to standardized names using fuzzy matching.\n\n\n\ndata_correction\nA module that replace data values to the resolved name within a column.\n\n\n\n\n\n\nFunction for generating detailed numeric and categorical summary reports, including missingness and confidence intervals.\n\n\n\ngenerate_report\nA module that generates a summary report given an input dataframe.",
     "crumbs": [
       "Reference",
       "Function reference"
@@ -39,7 +39,7 @@
     "href": "reference/index.html#data-loading",
     "title": "Function reference",
     "section": "",
-    "text": "Function for loading a CSV file and return a memory-optimized DataFrame.\n\n\n\nload_optimized_csv\nLoad a CSV file and return a memory-optimized DataFrame.",
+    "text": "Function for loading a CSV file and return a memory-optimized DataFrame.\n\n\n\nload_optimized_csv\nA module to load a CSV file and return a memory-optimized DataFrame.",
     "crumbs": [
       "Reference",
       "Function reference"
@@ -61,7 +61,7 @@
     "href": "reference/index.html#data-cleaning",
     "title": "Function reference",
     "section": "",
-    "text": "Function for resolving inconsistent string values to standardized names using fuzzy matching.\n\n\n\ndata_correction\nA module that replaced data values to the resolved name within a column.",
+    "text": "Function for resolving inconsistent string values to standardized names using fuzzy matching.\n\n\n\ndata_correction\nA module that replace data values to the resolved name within a column.",
     "crumbs": [
       "Reference",
       "Function reference"
@@ -83,7 +83,7 @@
     "href": "reference/load_optimized_csv.html",
     "title": "load_optimized_csv",
     "section": "",
-    "text": "load_optimized_csv\nLoad a CSV file and return a memory-optimized DataFrame.\n\n\n\n\n\nName\nDescription\n\n\n\n\nload_optimized_csv\nLoad a CSV file and return a memory-optimized DataFrame.\n\n\n\n\n\nload_optimized_csv.load_optimized_csv(\n    filepath,\n    nrows=None,\n    usecols=None,\n    no_sparse_cols=None,\n    no_downcast_cols=None,\n    no_category_cols=None,\n    sparse_threshold=0.3,\n    category_threshold=0.7,\n    **kwargs,\n)\nLoad a CSV file and return a memory-optimized DataFrame.\nAutomatically determines optimal chunk size based on file size and available system memory, then processes each chunk by downcasting dtypes, converting low-cardinality string columns to categorical, and converting high-zero-density columns to sparse. Returns a single concatenated, memory-optimized DataFrame with a RangeIndex.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nfilepath\nstr\nPath to the CSV file to load.\nrequired\n\n\nnrows\nint\nMaximum number of rows to read. If None, reads all rows.\nNone\n\n\nusecols\nlist of str\nColumns to read. If None, reads all columns.\nNone\n\n\nno_sparse_cols\nlist of str\nColumns to exclude from sparse conversion.\nNone\n\n\nno_downcast_cols\nlist of str\nColumns to exclude from dtype downcasting.\nNone\n\n\nno_category_cols\nlist of str\nColumns to exclude from categorical conversion.\nNone\n\n\nsparse_threshold\nfloat\nMinimum proportion of zeros required to convert a column to sparse. Must be between 0 and 1.\n0.3\n\n\ncategory_threshold\nfloat\nMaximum ratio of unique values to total values for a string column to be converted to categorical. Must be between 0 and 1.\n0.7\n\n\n**kwargs\n\nAdditional keyword arguments passed to pandas.read_csv (e.g., sep, encoding, parse_dates).\n{}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\npd.DataFrame\nA memory-optimized DataFrame with: - Numeric columns downcasted to smallest sufficient dtype - Low-cardinality string columns converted to categorical - High-zero columns converted to SparseDtype - RangeIndex set as index\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf filepath does not exist.\n\n\n\nValueError\nIf the file is not a valid CSV, if sparse_threshold or category_threshold are not in [0, 1], or if usecols contains columns not present in the CSV.\n\n\n\nTypeError\nIf arguments are of incorrect types.\n\n\n\npd.errors.EmptyDataError\nIf the CSV file is empty or contains only headers.\n\n\n\nMemoryError\nIf the final DataFrame exceeds available memory.\n\n\n\n\n\n\n&gt;&gt;&gt; df = load_optimized_csv(\n...     \"large_dataset.csv\",\n...     nrows=100000,\n...     usecols=[\"id\", \"value\", \"category\", \"status\"],\n...     no_sparse_cols=[\"id\"],\n...     no_downcast_cols=[\"value\"],\n...     no_category_cols=[\"id\"],\n...     sparse_threshold=0.6,\n...     category_threshold=0.3,\n... )\n&gt;&gt;&gt; df.info(memory_usage=\"deep\")",
+    "text": "load_optimized_csv\nA module to load a CSV file and return a memory-optimized DataFrame.\n\n\n\n\n\nName\nDescription\n\n\n\n\nload_optimized_csv\nLoad a CSV file and return a memory-optimized DataFrame.\n\n\n\n\n\nload_optimized_csv.load_optimized_csv(\n    filepath,\n    nrows=None,\n    usecols=None,\n    no_sparse_cols=None,\n    no_downcast_cols=None,\n    no_category_cols=None,\n    sparse_threshold=0.3,\n    category_threshold=0.7,\n    **kwargs,\n)\nLoad a CSV file and return a memory-optimized DataFrame.\nAutomatically determines optimal chunk size based on file size and available system memory, then processes each chunk by downcasting dtypes, converting low-cardinality string columns to categorical, and converting high-zero-density columns to sparse. Returns a single concatenated, memory-optimized DataFrame with a RangeIndex.\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\nDefault\n\n\n\n\nfilepath\nstr\nPath to the CSV file to load.\nrequired\n\n\nnrows\nint\nMaximum number of rows to read. If None, reads all rows.\nNone\n\n\nusecols\nlist of str\nColumns to read. If None, reads all columns.\nNone\n\n\nno_sparse_cols\nlist of str\nColumns to exclude from sparse conversion.\nNone\n\n\nno_downcast_cols\nlist of str\nColumns to exclude from dtype downcasting.\nNone\n\n\nno_category_cols\nlist of str\nColumns to exclude from categorical conversion.\nNone\n\n\nsparse_threshold\nfloat\nMinimum proportion of zeros required to convert a column to sparse. Must be between 0 and 1.\n0.3\n\n\ncategory_threshold\nfloat\nMaximum ratio of unique values to total values for a string column to be converted to categorical. Must be between 0 and 1.\n0.7\n\n\n**kwargs\n\nAdditional keyword arguments passed to pandas.read_csv (e.g., sep, encoding, parse_dates).\n{}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\npd.DataFrame\nA memory-optimized DataFrame with: - Numeric columns downcasted to smallest sufficient dtype - Low-cardinality string columns converted to categorical - High-zero columns converted to SparseDtype - RangeIndex set as index\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nName\nType\nDescription\n\n\n\n\n\nFileNotFoundError\nIf filepath does not exist.\n\n\n\nValueError\nIf the file is not a valid CSV, if sparse_threshold or category_threshold are not in [0, 1], or if usecols contains columns not present in the CSV.\n\n\n\nTypeError\nIf arguments are of incorrect types.\n\n\n\npd.errors.EmptyDataError\nIf the CSV file is empty or contains only headers.\n\n\n\nMemoryError\nIf the final DataFrame exceeds available memory.\n\n\n\n\n\n\n&gt;&gt;&gt; df = load_optimized_csv(\n...     \"large_dataset.csv\",\n...     nrows=100000,\n...     usecols=[\"id\", \"value\", \"category\", \"status\"],\n...     no_sparse_cols=[\"id\"],\n...     no_downcast_cols=[\"value\"],\n...     no_category_cols=[\"id\"],\n...     sparse_threshold=0.6,\n...     category_threshold=0.3,\n... )\n&gt;&gt;&gt; df.info(memory_usage=\"deep\")",
     "crumbs": [
       "Reference",
       "Data Loading",
@@ -121,42 +121,70 @@
     "href": "index.html",
     "title": "csvplus",
     "section": "",
-    "text": "csvplus is a lightweight Python package for inspecting, comparing, and preparing CSV-based tabular data. It provides utilities for:\n\nLoading large CSV files efficiently with automatic dtype optimization\nComparing different versions of datasets to understand how data has changed\nCleaning and standardizing tabular data\nGenerating summary reports for data auditing and reproducibility\n\nThe package is designed for data scientists, analysts, and students who work with evolving datasets and want quick, interpretable insights into data changes."
+    "text": "csvplus is a lightweight Python package that provides practical utilities for loading, comparing, cleaning, and summarizing tabular data.\nWhile some functions operate directly on CSV files, others work with pandas DataFrames, making csvplus easy to integrate into existing data analysis workflows.\nIt is designed for data scientists, analysts, and students who work with evolving datasets and want clear, interpretable insights into data structure, quality, and change over time."
   },
   {
-    "objectID": "index.html#what-is-csvplus",
-    "href": "index.html#what-is-csvplus",
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
     "title": "csvplus",
     "section": "",
-    "text": "csvplus is a lightweight Python package for inspecting, comparing, and preparing CSV-based tabular data. It provides utilities for:\n\nLoading large CSV files efficiently with automatic dtype optimization\nComparing different versions of datasets to understand how data has changed\nCleaning and standardizing tabular data\nGenerating summary reports for data auditing and reproducibility\n\nThe package is designed for data scientists, analysts, and students who work with evolving datasets and want quick, interpretable insights into data changes."
+    "text": "csvplus is a lightweight Python package that provides practical utilities for loading, comparing, cleaning, and summarizing tabular data.\nWhile some functions operate directly on CSV files, others work with pandas DataFrames, making csvplus easy to integrate into existing data analysis workflows.\nIt is designed for data scientists, analysts, and students who work with evolving datasets and want clear, interpretable insights into data structure, quality, and change over time."
+  },
+  {
+    "objectID": "index.html#key-features",
+    "href": "index.html#key-features",
+    "title": "csvplus",
+    "section": "Key Features",
+    "text": "Key Features\ncsvplus supports common data preprocessing and auditing tasks, including:\n\nMemory-efficient CSV loading with automatic dtype optimization\nDataset version comparison to identify schema, value, and data type changes\nData cleaning and standardization, including resolving spelling variations\nExploratory summary reports for numeric and categorical variables"
+  },
+  {
+    "objectID": "index.html#core-functionality",
+    "href": "index.html#core-functionality",
+    "title": "csvplus",
+    "section": "Core Functionality",
+    "text": "Core Functionality\nThe main functions provided by the package include:\n\nload_optimized_csv\nLoad CSV files with automatic data type downcasting to reduce memory usage.\ndata_version_diff\nCompare two versions of a dataset and summarize differences in schema, row counts, missing values, and numeric statistics.\nresolve_string_value\nStandardize categorical values by consolidating spelling variations using fuzzy matching.\nsummary_report\nGenerate comprehensive summary statistics for numeric and categorical columns, including missingness and confidence intervals.\n\nDetailed API documentation and examples for each function are available in the Reference section."
   },
   {
     "objectID": "index.html#getting-started",
     "href": "index.html#getting-started",
     "title": "csvplus",
     "section": "Getting Started",
-    "text": "Getting Started\nInstall the package in editable mode:\npip install -e .\nLoad and optimize a CSV file:\nfrom csvplus import load_optimized_csv\n\ndf = load_optimized_csv(\"data.csv\")\nCompare two versions of a dataset:\nfrom csvplus import data_version_diff\nfrom csvplus.data_version_diff import display_data_version_diff\n\ndiff = data_version_diff(df_old, df_new)\ndisplay_data_version_diff(diff)"
+    "text": "Getting Started\n\nInstallation (from Test PyPI)\npip install --index-url https://test.pypi.org/simple/ \\\n            --extra-index-url https://pypi.org/simple \\\n            csvplus\n\nNote (macOS users): If installation fails due to rapidfuzz, install it first:\npip install rapidfuzz"
   },
   {
-    "objectID": "index.html#documentation",
-    "href": "index.html#documentation",
+    "objectID": "index.html#quick-usage-examples",
+    "href": "index.html#quick-usage-examples",
     "title": "csvplus",
-    "section": "Documentation",
-    "text": "Documentation\n\nBrowse the full API reference in the Reference section\nEach function includes examples and explanations of its outputs"
+    "section": "Quick Usage Examples",
+    "text": "Quick Usage Examples\n\nLoad a CSV with optimized memory usage\nfrom csvplus.load_optimized_csv import load_optimized_csv\n\ndf = load_optimized_csv(\"large_dataset.csv\")\nprint(df.dtypes)\n\n\nCompare two dataset versions\nfrom csvplus.data_version_diff import data_version_diff, display_data_version_diff\n\ndiff = data_version_diff(df_old, df_new)\ndisplay_data_version_diff(diff)\n\n\nResolve inconsistent categorical values\nfrom csvplus.data_correction import resolve_string_value\n\nresolve_string_value(\n    df,\n    column=\"company\",\n    canonical_values=[\"Google\", \"Microsoft\"],\n    threshold=80\n)\n\n\nGenerate a summary report\nfrom csvplus.generate_report import summary_report\n\nnumeric_stats, categorical_stats = summary_report(df)\nnumeric_stats.head()"
   },
   {
-    "objectID": "index.html#development",
-    "href": "index.html#development",
+    "objectID": "index.html#for-developers",
+    "href": "index.html#for-developers",
     "title": "csvplus",
-    "section": "Development",
-    "text": "Development\nTo run tests:\npytest\nTo build documentation locally:\nquarto build\nquarto preview"
+    "section": "For Developers",
+    "text": "For Developers\n\nDevelopment Setup\nconda env create -f environment.yml\nconda activate csvplus\n\n\nRun Tests and Coverage\npytest --cov=csvplus --cov-report=term-missing\n\n\nBuild and Preview Documentation\nquartodoc build\nquarto preview\nquarto render"
   },
   {
     "objectID": "index.html#project-links",
     "href": "index.html#project-links",
     "title": "csvplus",
-    "section": "🔗 Project Links",
-    "text": "🔗 Project Links\n\nSource code: https://github.com/UBC-MDS/DSCI_524_group37_csvplus\nDocumentation: GitHub Pages (this site)"
+    "section": "Project Links",
+    "text": "Project Links\n\nSource code: https://github.com/UBC-MDS/DSCI_524_group37_csvplus\nFull documentation (this site): https://ubc-mds.github.io/DSCI_524_group37_csvplus/"
+  },
+  {
+    "objectID": "index.html#contributors",
+    "href": "index.html#contributors",
+    "title": "csvplus",
+    "section": "Contributors",
+    "text": "Contributors\n\nAlan Liu\nOswin Gan\nPurity Jangaya\nRalah Aaqil"
+  },
+  {
+    "objectID": "index.html#license",
+    "href": "index.html#license",
+    "title": "csvplus",
+    "section": "License",
+    "text": "License\nFree software distributed under the MIT License."
   },
   {
     "objectID": "CODE_OF_CONDUCT.html",

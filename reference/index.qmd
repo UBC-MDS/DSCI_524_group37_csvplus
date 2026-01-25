@@ -6,7 +6,7 @@ Function for loading a CSV file and return a memory-optimized DataFrame.
 
 | | |
 | --- | --- |
-| [load_optimized_csv](load_optimized_csv.qmd#csvplus.load_optimized_csv) | Load a CSV file and return a memory-optimized DataFrame. |
+| [load_optimized_csv](load_optimized_csv.qmd#csvplus.load_optimized_csv) | A module to load a CSV file and return a memory-optimized DataFrame. |
 
 ## Data Comparison
 
@@ -23,7 +23,7 @@ Function for resolving inconsistent string values to standardized names using fu
 
 | | |
 | --- | --- |
-| [data_correction](data_correction.qmd#csvplus.data_correction) | A module that replaced data values to the resolved name within a column. |
+| [data_correction](data_correction.qmd#csvplus.data_correction) | A module that replace data values to the resolved name within a column. |
 
 ## Reporting
 

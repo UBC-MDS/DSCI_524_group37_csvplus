@@ -166,57 +166,130 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="what-is-csvplus" class="level2">
-<h2 class="anchored" data-anchor-id="what-is-csvplus">What is csvplus?</h2>
-<p><code>csvplus</code> is a lightweight Python package for inspecting, comparing, and preparing CSV-based tabular data. It provides utilities for:</p>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p><code>csvplus</code> is a lightweight Python package that provides <strong>practical utilities for loading, comparing, cleaning, and summarizing tabular data</strong>.</p>
+<p>While some functions operate directly on CSV files, others work with <strong>pandas DataFrames</strong>, making <code>csvplus</code> easy to integrate into existing data analysis workflows.</p>
+<p>It is designed for data scientists, analysts, and students who work with evolving datasets and want <strong>clear, interpretable insights</strong> into data structure, quality, and change over time.</p>
+<hr>
+</section>
+<section id="key-features" class="level2">
+<h2 class="anchored" data-anchor-id="key-features">Key Features</h2>
+<p><code>csvplus</code> supports common data preprocessing and auditing tasks, including:</p>
 <ul>
-<li>Loading large CSV files efficiently with automatic dtype optimization</li>
-<li>Comparing different versions of datasets to understand how data has changed</li>
-<li>Cleaning and standardizing tabular data</li>
-<li>Generating summary reports for data auditing and reproducibility</li>
+<li><strong>Memory-efficient CSV loading</strong> with automatic dtype optimization</li>
+<li><strong>Dataset version comparison</strong> to identify schema, value, and data type changes</li>
+<li><strong>Data cleaning and standardization</strong>, including resolving spelling variations</li>
+<li><strong>Exploratory summary reports</strong> for numeric and categorical variables</li>
 </ul>
-<p>The package is designed for data scientists, analysts, and students who work with evolving datasets and want quick, interpretable insights into data changes.</p>
+<hr>
+</section>
+<section id="core-functionality" class="level2">
+<h2 class="anchored" data-anchor-id="core-functionality">Core Functionality</h2>
+<p>The main functions provided by the package include:</p>
+<ul>
+<li><p><code>load_optimized_csv</code><br>
+Load CSV files with automatic data type downcasting to reduce memory usage.</p></li>
+<li><p><code>data_version_diff</code><br>
+Compare two versions of a dataset and summarize differences in schema, row counts, missing values, and numeric statistics.</p></li>
+<li><p><code>resolve_string_value</code><br>
+Standardize categorical values by consolidating spelling variations using fuzzy matching.</p></li>
+<li><p><code>summary_report</code><br>
+Generate comprehensive summary statistics for numeric and categorical columns, including missingness and confidence intervals.</p></li>
+</ul>
+<p><strong>Detailed API documentation and examples</strong> for each function are available in the <a href="./reference/index.html">Reference</a> section.</p>
 <hr>
 </section>
 <section id="getting-started" class="level2">
 <h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
-<p>Install the package in editable mode:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Load and optimize a CSV file:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus <span class="im">import</span> load_optimized_csv</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> load_optimized_csv(<span class="st">"data.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Compare two versions of a dataset:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus <span class="im">import</span> data_version_diff</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.data_version_diff <span class="im">import</span> display_data_version_diff</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>diff <span class="op">=</span> data_version_diff(df_old, df_new)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>display_data_version_diff(diff)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="installation-from-test-pypi" class="level3">
+<h3 class="anchored" data-anchor-id="installation-from-test-pypi">Installation (from Test PyPI)</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--index-url</span> https://test.pypi.org/simple/ <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">--extra-index-url</span> https://pypi.org/simple <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>            csvplus</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<blockquote class="blockquote">
+<p><strong>Note (macOS users):</strong> If installation fails due to <code>rapidfuzz</code>, install it first:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install rapidfuzz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</blockquote>
 <hr>
 </section>
-<section id="documentation" class="level2">
-<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
-<ul>
-<li>Browse the full API reference in the <strong>Reference</strong> section</li>
-<li>Each function includes examples and explanations of its outputs</li>
-</ul>
+</section>
+<section id="quick-usage-examples" class="level2">
+<h2 class="anchored" data-anchor-id="quick-usage-examples">Quick Usage Examples</h2>
+<section id="load-a-csv-with-optimized-memory-usage" class="level3">
+<h3 class="anchored" data-anchor-id="load-a-csv-with-optimized-memory-usage">Load a CSV with optimized memory usage</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.load_optimized_csv <span class="im">import</span> load_optimized_csv</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> load_optimized_csv(<span class="st">"large_dataset.csv"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.dtypes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="compare-two-dataset-versions" class="level3">
+<h3 class="anchored" data-anchor-id="compare-two-dataset-versions">Compare two dataset versions</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.data_version_diff <span class="im">import</span> data_version_diff, display_data_version_diff</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>diff <span class="op">=</span> data_version_diff(df_old, df_new)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>display_data_version_diff(diff)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="resolve-inconsistent-categorical-values" class="level3">
+<h3 class="anchored" data-anchor-id="resolve-inconsistent-categorical-values">Resolve inconsistent categorical values</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.data_correction <span class="im">import</span> resolve_string_value</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>resolve_string_value(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    df,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    column<span class="op">=</span><span class="st">"company"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    canonical_values<span class="op">=</span>[<span class="st">"Google"</span>, <span class="st">"Microsoft"</span>],</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    threshold<span class="op">=</span><span class="dv">80</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="generate-a-summary-report" class="level3">
+<h3 class="anchored" data-anchor-id="generate-a-summary-report">Generate a summary report</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.generate_report <span class="im">import</span> summary_report</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>numeric_stats, categorical_stats <span class="op">=</span> summary_report(df)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>numeric_stats.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
 </section>
-<section id="development" class="level2">
-<h2 class="anchored" data-anchor-id="development">Development</h2>
-<p>To run tests:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pytest</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To build documentation locally:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> build</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="for-developers" class="level2">
+<h2 class="anchored" data-anchor-id="for-developers">For Developers</h2>
+<section id="development-setup" class="level3">
+<h3 class="anchored" data-anchor-id="development-setup">Development Setup</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate csvplus</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="run-tests-and-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="run-tests-and-coverage">Run Tests and Coverage</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pytest</span> <span class="at">--cov</span><span class="op">=</span>csvplus <span class="at">--cov-report</span><span class="op">=</span>term-missing</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="build-and-preview-documentation" class="level3">
+<h3 class="anchored" data-anchor-id="build-and-preview-documentation">Build and Preview Documentation</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quartodoc</span> build</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> preview</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
+</section>
 </section>
 <section id="project-links" class="level2">
-<h2 class="anchored" data-anchor-id="project-links">🔗 Project Links</h2>
+<h2 class="anchored" data-anchor-id="project-links">Project Links</h2>
 <ul>
-<li>Source code: https://github.com/UBC-MDS/DSCI_524_group37_csvplus</li>
-<li>Documentation: GitHub Pages (this site)</li>
+<li><p>Source code: <a href="https://github.com/UBC-MDS/DSCI_524_group37_csvplus">https://github.com/UBC-MDS/DSCI_524_group37_csvplus</a></p></li>
+<li><p>Full documentation (this site): <a href="https://ubc-mds.github.io/DSCI_524_group37_csvplus/">https://ubc-mds.github.io/DSCI_524_group37_csvplus/</a></p></li>
 </ul>
+<hr>
+</section>
+<section id="contributors" class="level2">
+<h2 class="anchored" data-anchor-id="contributors">Contributors</h2>
+<ul>
+<li>Alan Liu</li>
+<li>Oswin Gan</li>
+<li>Purity Jangaya</li>
+<li>Ralah Aaqil</li>
+</ul>
+<hr>
+</section>
+<section id="license" class="level2">
+<h2 class="anchored" data-anchor-id="license">License</h2>
+<p>Free software distributed under the MIT License.</p>
 <hr>
 
 

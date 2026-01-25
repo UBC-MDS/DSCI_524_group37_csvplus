@@ -2,7 +2,7 @@
 
 `load_optimized_csv`
 
-Load a CSV file and return a memory-optimized DataFrame.
+A module to load a CSV file and return a memory-optimized DataFrame.
 
 ## Functions
 
