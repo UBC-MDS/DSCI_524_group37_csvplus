@@ -64,37 +64,37 @@ def data_version_diff(df_old, df_new):
     old_cols = set(df_old.columns)
     new_cols = set(df_new.columns)
 
-    #columns added and removed
+    # columns added and removed
     columns_added = sorted(new_cols - old_cols)
     columns_removed = sorted(old_cols - new_cols)
 
-    #row_count_change
+    # row_count_change
     old_row_count = len(df_old)
     new_row_count = len(df_new)
     row_difference = new_row_count - old_row_count
 
-    #missing_value_changes
+    # missing_value_changes
     shared_columns = df_old.columns.intersection(df_new.columns) #shared columns
     missing_summary = pd.DataFrame({
         "missing_old": df_old[shared_columns].isna().sum(),
         "missing_new": df_new[shared_columns].isna().sum()
     })
 
-    #calculate the difference
+    # calculate the difference
     missing_summary["difference"] = missing_summary["missing_new"] - missing_summary["missing_old"]
 
-    #reset index so 'column' is a regular column
+    # reset index so 'column' is a regular column
     missing_summary = missing_summary.reset_index().rename(columns={"index": "column"})
 
-    #print(f"Missing value summary: {missing_summary}")
+    # print(f"Missing value summary: {missing_summary}")
 
     ## numeric_summary_changes
-    #identify numeric cols in both DFs
+    # identify numeric cols in both DFs
     numeric_cols_old = df_old.select_dtypes(include="number").columns
     numeric_cols_new = df_new.select_dtypes(include="number").columns
     shared_numeric_columns = numeric_cols_old.intersection(numeric_cols_new) 
 
-    #compute summary statistics for shared numeric columns
+    # compute summary statistics for shared numeric columns
     if len(shared_numeric_columns) == 0:
         numeric_summary_changes = pd.DataFrame(
             columns=["column", "statistic", "old", "new", "difference"]
@@ -121,7 +121,7 @@ def data_version_diff(df_old, df_new):
         )
 
     # --- dtype_changes ---
-    #for each shared column, compare types
+    # for each shared column, compare types
     dtype_changes_list = []
     for col in shared_columns:
         old_type = df_old[col].dtype
@@ -131,7 +131,7 @@ def data_version_diff(df_old, df_new):
                 "column": col, "old_dtype": str(old_type), "new_type": str(new_type)
                 })
 
-    #convert to DF
+    # convert to DF
     dtype_changes = pd.DataFrame(dtype_changes_list)
 
     result = {
