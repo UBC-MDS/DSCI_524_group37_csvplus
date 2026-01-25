@@ -53,7 +53,8 @@ def summary_report(
     - 'n_unique': number of unique values
     - 'unique_prop': proportion of unique values to total count
     - 'is_constant': boolean indicating if only one unique value exists
-    - 'top_values': dictionary of {value: count} for up to top_n most frequent values
+    - 'top_values': dictionary of {value: count}
+    for up to top_n most frequent values
     - 'top_1_prop': proportion of most common value
 
     Note: Confidence intervals are calculated using the t-distribution
@@ -67,7 +68,8 @@ def summary_report(
     df : pd.DataFrame
         DataFrame to obtain summary statistics for.
     confidence_level : float, default=0.95
-        Confidence level for calculating confidence intervals for numeric columns.
+        Confidence level for calculating confidence
+        intervals for numeric columns.
         Must be between 0 and 1.
     top_n : int, default=5
         Maximum number of most frequent values to include in top_values
@@ -126,7 +128,8 @@ def summary_report(
 
     # Validate that df contains at least one row
     if len(df) == 0:
-        raise ValueError("DataFrame cannot be empty (must have at least one row)")
+        raise ValueError("DataFrame cannot be empty (must have at least "
+                         "one row)")
 
     # Validate confidence_level is within the valid range
     if not 0 < confidence_level < 1:
@@ -262,7 +265,8 @@ def summary_report(
             top_values = value_counts.head(top_n).to_dict()
 
             # Get proportion of most common value
-            top_1_prop = value_counts.iloc[0] / count if len(value_counts) > 0 else 0
+            top_1_prop = (value_counts.iloc[0] / count
+                          if len(value_counts) > 0 else 0)
 
             # Update stats dictionary
             stats_dict.update({
