@@ -10,6 +10,7 @@ Claude.ai was used to perform the following tasks:
 
 import pytest
 import pandas as pd
+import numpy as np
 from csvplus.generate_report import summary_report
 
 
@@ -50,6 +51,16 @@ class TestInputValidation:
         df = pd.DataFrame({'x': ['a', 'b', 'c']})
         with pytest.raises(ValueError):
             summary_report(df, top_n=-1)
+
+    def test_top_n_greater_than_unique(self):
+        """Test that top_n larger than the number of unique values,
+        returns all unique values without error."""
+        df = pd.DataFrame({'x': ['a', 'b', 'c', 'c']})
+        _, cat_stats = summary_report(df, top_n=100)
+
+        top_vals = cat_stats.loc['x', 'top_values']
+        assert len(top_vals) == 3
+        assert set(top_vals.keys()) == {'a', 'b', 'c'}
 
 
 class TestNumericColumns:
@@ -145,7 +156,7 @@ class TestCategoricalColumns:
         assert cat_stats.loc['city', 'n_missing'] == 0
         assert cat_stats.loc['city', 'n_unique'] == 3
         assert cat_stats.loc['city', 'unique_prop'] == 0.6
-        assert cat_stats.loc['city', 'is_constant'] == False
+        assert cat_stats.loc['city', 'is_constant'] == np.False_
 
     def test_categorical_with_missing(self):
         """Test creation of categorical report where
@@ -163,7 +174,7 @@ class TestCategoricalColumns:
         df = pd.DataFrame({'const': ['same', 'same', 'same']})
         _, cat_stats = summary_report(df)
 
-        assert cat_stats.loc['const', 'is_constant'] == True
+        assert cat_stats.loc['const', 'is_constant'] is np.True_
         assert cat_stats.loc['const', 'n_unique'] == 1
 
     def test_top_values_default_n(self):
@@ -351,5 +362,5 @@ class TestEdgeCases:
         df = pd.DataFrame({'dup': ['a'] * 100})
         _, cat_stats = summary_report(df)
 
-        assert cat_stats.loc['dup', 'is_constant'] == True
+        assert cat_stats.loc['dup', 'is_constant'] == np.True_
         assert cat_stats.loc['dup', 'top_1_prop'] == 1.0
