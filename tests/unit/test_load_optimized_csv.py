@@ -115,7 +115,7 @@ def test_no_downcast_cols_excludes_column(sample_csv):
 
 
 def test_no_category_cols_excludes_column(sample_csv):
-    """Test that no_category_cols excludes columns 
+    """Test that no_category_cols excludes columns
     from categorical conversion."""
     df = load_optimized_csv(sample_csv, no_category_cols=["cat_col"])
     assert not isinstance(df["cat_col"].dtype, pd.CategoricalDtype)
@@ -159,7 +159,7 @@ def test_category_threshold_controls_conversion(tmp_path):
     """Test that category_threshold affects
     which columns become categorical."""
     # 20% unique (2 unique / 10 total)
-    df = pd.DataFrame({"col": ["A", "A", "A", "A", "A", 
+    df = pd.DataFrame({"col": ["A", "A", "A", "A", "A",
                                "B", "B", "B", "B", "B"]})
     csv_file = tmp_path / "cat_test.csv"
     df.to_csv(csv_file, index=False)

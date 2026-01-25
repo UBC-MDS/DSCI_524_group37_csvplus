@@ -18,7 +18,8 @@ project = "csvplus"
 copyright = "Copyright © 2026 "
 html_show_sphinx = False
 
-# Try to get the version info for the project you're documenting, acts as replacement for
+# Try to get the version info for the project
+# you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 try:
@@ -26,18 +27,19 @@ try:
 except importlib.metadata.PackageNotFoundError:
     version = "0.0.0"
 
-# -- General configuration -----------------------------------------------------
+# -- General configuration --------------------------------
 
-# -- General configuration -----------------------------------------------------
+# -- General configuration -------------------------------
 
-# Add any Sphinx extension module names here, as strings. They can be extensions
+# Add any Sphinx extension module names here, as strings.
+# They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
     "myst_parser",
     "sphinx_design",
     "sphinx_copybutton",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.napoleon", # Support numpy style docstrings
+    "sphinx.ext.napoleon",  # Support numpy style docstrings
     # This allows you to create :::{todo} sections that will not be rendered
     # in the live docs if you want to leave notes for future work in the docs
     "sphinx.ext.todo",
@@ -61,7 +63,7 @@ pygments_style = "default"
 # Usually you set "language" from the command line for these cases.
 language = "en"
 
-# -- Options for extensions ----------------------------------------------------
+# -- Options for extensions --------------------------------
 # https://myst-parser.readthedocs.io/en/latest/syntax/optional.html
 # -- Options for myst markdown formatting
 myst_enable_extensions = [
@@ -78,7 +80,7 @@ myst_footnote_transition = False
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-#--------- setup autoapi defaults for your api docs ---------------
+# --------- setup autoapi defaults for your api docs ---------------
 
 # AutoAPI configuration
 autoapi_type = "python"
@@ -89,7 +91,7 @@ autoapi_add_toctree = False
 autoapi_keep_files = False
 autoapi_options = ["members", "undoc-members", "show-inheritance"]
 
-# -- Options for HTML output ---------------------------------------------------
+# -- Options for HTML output ----------------------------
 
 html_theme = "pydata_sphinx_theme"
 
