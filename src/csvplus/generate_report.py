@@ -53,8 +53,7 @@ def summary_report(
     - 'n_unique': number of unique values
     - 'unique_prop': proportion of unique values to total count
     - 'is_constant': boolean indicating if only one unique value exists
-    - 'top_values': dictionary of {value: count}
-    for up to top_n most frequent values
+    - 'top_values': dictionary for up to top_n most frequent values
     - 'top_1_prop': proportion of most common value
 
     Note: Confidence intervals are calculated using the t-distribution
