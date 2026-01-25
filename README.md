@@ -40,62 +40,110 @@ Our package fits into the Python preprocessing framework. Currently, the [`panda
 
 `csvplus` extends these tools with automated memory optimization, dataset version comparison and high-level summaries useful for auditing and exploratory analysis
 
+Full API reference and examples are available at: https://ubc-mds.github.io/DSCI_524_group37_csvplus/reference/
 ---
 
 ## Get started
 
-### Installation
+### Installation (from Test Pypi)
 
-You can install the package into your preferred Python environment in editable mode (recommended for development):
+Install the latest test version from test PyPI
 
 ```bash
-git clone git@github.com:UBC-MDS/DSCI_524_group37_csvplus.git csvplus
-cd csvplus
-pip install -e .
+# 1. Create and activate a new Python 3.11 environment (recommended)
+conda create -n py311 python=3.11 -y
+conda activate py311
+
+# 2. Upgrade pip to ensure latest package handling
+pip install --upgrade pip
+
+# 3. (macOS users only) Install rapidfuzz first to avoid build issues
+pip install rapidfuzz
+
+# 4. Install csvplus from Test PyPI
+pip install --index-url https://test.pypi.org/simple/  --extra-index-url https://pypi.org/simple csvplus
+
 ```
 
-Or install via pip (once published):
+> Note: Step 3 is only required on macOS due to a known rapidfuzz build issue. On Linux or Windows, pip will install dependencies automatically.
+
+Or install from PyPI (once published)
 
 ```bash
 pip install csvplus
 ```
 
-### Usage
-
-To use csvplus in your code:
+## Usage Examples
 
 ```python
+import pandas as pd
 from csvplus.data_version_diff import data_version_diff, display_data_version_diff
 from csvplus.load_optimized_csv import load_optimized_csv
 from csvplus.data_correction import resolve_string_value
 from csvplus.generate_report import summary_report
 
-# --- test data type change in csvplus.data_version_diff ---
-df1 = pd.DataFrame({"a": [1,2,3]})
-df2 = pd.DataFrame({"a": ["1","2","3"]})
-diff = data_version_diff(df1, df2)
-print(diff)
-# Optionally display a formatted summary
+# --- compare two DataFrame versions ---
+df_old = pd.DataFrame({"id": [1,2,3], "value": [10,20,30]})
+df_new = pd.DataFrame({"id": [1,2,3,4], "value": [10,25,30,40], "category": ["A","B",None,"C"], "amount": [100,200,300,400]})
+
+diff = data_version_diff(df_old, df_new)
 display_data_version_diff(diff)
 
-# --- csvplus.data_correction --
-df_v1 = load_optimized_csv("large_dataset.csv")
-df_v2 = load_optimized_csv("large_dataset2.csv")
-resolve_string_value(df1, "company_name", ["Google", "Microsoft"], 80)
-summary_report(df1)
+# --- resolve string value --
+df1 = pd.DataFrame({ "company": ["Google", "Gooogle", "Gogle", "Microsoft", "Microsof"]})
+resolve_string_value(df1, column="company", canonical_values=["Google", "Microsoft"],threshold=80)
+print(df)
+
+# --- load a CSV file with optimized memory usage ---
+df = load_optimized_csv("large_dataset.csv")
+print(df1.dtypes) 
+
+# --- Generate summary statistics ---
+numeric_stats, categorical_stats = summary_report(df)
+print(numeric_stats.head())
+print(categorical_stats.head())
 ```
 
-### Running Tests
+## Developers
 
-All tests are written using `pytest`
+### Development Setup
 
-To run the full test suite, navigate to the project root directory and execute:
+Create conda environment and clone the repo.
 
 ```bash
-pytest
+conda env create -f environment.yml
+conda activate csvplus
+
+git clone https://github.com/UBC-MDS/DSCI_524_group37_csvplus
+cd DSCI_524_group37_csvplus
 ```
 
-This will automatically discover and run all tests in the `tests/` folder.
+### Run Tests and Coverage
+
+All tests are written using `pytest`. To run the full test suite and generate a coverage report execute:
+
+```bash
+# install coverage tools if not yet installed
+pip install pytest pytest-cov
+
+pytest --cov=csvplus --cov-report=term-missing
+```
+
+### Install csvplus package (editable mode)
+
+This allows you to edit the source code locally while using the package.
+
+```bash
+pip install -e .
+```
+
+### Build and Preview Documentation
+
+```bash
+quartodoc build
+quarto preview 
+quarto render
+```
 
 ## Contributors
 
