@@ -18,7 +18,8 @@
 #     "age": np.random.randint(18, 70, size=n_old),
 #     "income": np.random.normal(loc=5000, scale=15000, size=n_old),
 #     "email": [fake.email() for _ in range(n_old)],
-#     "signup_date": [fake.date_between(start_date="-2y", end_date="today") for _ in range(n_old)],
+#     "signup_date": [fake.date_between(start_date="-2y", end_date="today")
+#      for _ in range(n_old)],
 #     "country": [fake.country() for _ in range(n_old)],
 # })
 
@@ -36,11 +37,13 @@
 # n_new_rows = 20
 
 # new_rows = pd.DataFrame({
-#     "user_id": range(df_old["user_id"].max() + 1, df_old["user_id"].max() + 1 + n_new_rows),
+#     "user_id": range(df_old["user_id"].max() + 1, df_old["user_id"].max() +
+#       1 + n_new_rows),
 #     "age": np.random.randint(18, 70, size=n_new_rows),
 #     "income": np.random.normal(loc=60000, scale=20000, size=n_new_rows),
 #     "email": [fake.email() for _ in range(n_new_rows)],
-#     "signup_date": [fake.date_between(start_date="-1y", end_date="today") for _ in range(n_new_rows)],
+#     "signup_date": [fake.date_between(start_date="-1y", end_date="today")
+# for _ in range(n_new_rows)],
 #     "country": [fake.country() for _ in range(n_new_rows)],
 # })
 # df_new = pd.concat([df_new, new_rows], ignore_index=True)
@@ -50,7 +53,8 @@
 
 # #column addition
 # df_new["last_login_date"] = [
-#     fake.date_between(start_date="-6m", end_date="today") for _ in range(len(df_new))
+#     fake.date_between(start_date="-6m", end_date="today")
+# for _ in range(len(df_new))
 # ]
 
 # ## missing value changes

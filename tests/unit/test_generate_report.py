@@ -180,7 +180,8 @@ class TestCategoricalColumns:
     def test_top_values_default_n(self):
         """Test that 'top_values' returns the correct value
         with default parameters."""
-        df = pd.DataFrame({'x': ['a']*10 + ['b']*5 + ['c']*3 + ['d']*2 + ['e']*1})
+        df = pd.DataFrame({'x': ['a']*10 + ['b']*5 +
+                           ['c']*3 + ['d']*2 + ['e']*1})
         _, cat_stats = summary_report(df)
 
         top_vals = cat_stats.loc['x', 'top_values']
