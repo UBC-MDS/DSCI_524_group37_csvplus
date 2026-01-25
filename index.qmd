@@ -1,0 +1,166 @@
+---
+title: csvplus
+---
+
+## Overview
+
+`csvplus` is a lightweight Python package that provides **practical utilities for
+loading, comparing, cleaning, and summarizing tabular data**.
+
+While some functions operate directly on CSV files, others work with
+**pandas DataFrames**, making `csvplus` easy to integrate into existing
+data analysis workflows.
+
+It is designed for data scientists, analysts, and students who work with
+evolving datasets and want **clear, interpretable insights** into data
+structure, quality, and change over time.
+
+---
+
+## Key Features
+
+`csvplus` supports common data preprocessing and auditing tasks, including:
+
+- **Memory-efficient CSV loading** with automatic dtype optimization
+- **Dataset version comparison** to identify schema, value, and data type changes
+- **Data cleaning and standardization**, including resolving spelling variations
+- **Exploratory summary reports** for numeric and categorical variables
+
+---
+
+## Core Functionality
+
+The main functions provided by the package include:
+
+- `load_optimized_csv`  
+  Load CSV files with automatic data type downcasting to reduce memory usage.
+
+- `data_version_diff`  
+  Compare two versions of a dataset and summarize differences in schema,
+  row counts, missing values, and numeric statistics.
+
+- `resolve_string_value`  
+  Standardize categorical values by consolidating spelling variations using
+  fuzzy matching.
+
+- `summary_report`  
+  Generate comprehensive summary statistics for numeric and categorical columns,
+  including missingness and confidence intervals.
+
+**Detailed API documentation and examples** for each function are available
+in the [Reference](reference/index.qmd) section.
+
+---
+
+## Getting Started
+
+### Installation (from Test PyPI)
+
+```bash
+pip install --index-url https://test.pypi.org/simple/ \
+            --extra-index-url https://pypi.org/simple \
+            csvplus
+````
+
+> **Note (macOS users):**
+> If installation fails due to `rapidfuzz`, install it first:
+>
+> ```bash
+> pip install rapidfuzz
+> ```
+
+---
+
+## Quick Usage Examples
+
+### Load a CSV with optimized memory usage
+
+```python
+from csvplus.load_optimized_csv import load_optimized_csv
+
+df = load_optimized_csv("large_dataset.csv")
+print(df.dtypes)
+```
+
+### Compare two dataset versions
+
+```python
+from csvplus.data_version_diff import data_version_diff, display_data_version_diff
+
+diff = data_version_diff(df_old, df_new)
+display_data_version_diff(diff)
+```
+
+### Resolve inconsistent categorical values
+
+```python
+from csvplus.data_correction import resolve_string_value
+
+resolve_string_value(
+    df,
+    column="company",
+    canonical_values=["Google", "Microsoft"],
+    threshold=80
+)
+```
+
+### Generate a summary report
+
+```python
+from csvplus.generate_report import summary_report
+
+numeric_stats, categorical_stats = summary_report(df)
+numeric_stats.head()
+```
+
+---
+
+## For Developers
+
+### Development Setup
+
+```bash
+conda env create -f environment.yml
+conda activate csvplus
+```
+
+### Run Tests and Coverage
+
+```bash
+pytest --cov=csvplus --cov-report=term-missing
+```
+
+### Build and Preview Documentation
+
+```bash
+quartodoc build
+quarto preview
+quarto render
+```
+
+---
+
+## Project Links
+
+* Source code:
+  [https://github.com/UBC-MDS/DSCI_524_group37_csvplus](https://github.com/UBC-MDS/DSCI_524_group37_csvplus)
+
+* Full documentation (this site):
+  [https://ubc-mds.github.io/DSCI_524_group37_csvplus/](https://ubc-mds.github.io/DSCI_524_group37_csvplus/)
+
+---
+
+## Contributors
+
+* Alan Liu
+* Oswin Gan
+* Purity Jangaya
+* Ralah Aaqil
+
+---
+
+## License
+
+Free software distributed under the MIT License.
+
+---

@@ -1,14 +1,14 @@
+"""
+A module that summarizes structural and statistical differences between two DataFrame versions.
+"""
 import pandas as pd
 
 def data_version_diff(df_old, df_new):
     """
-    Compare two versions of a pandas DataFrame and summarize their differences.
-
-    This function is intended to support data auditing, reproducibility, and
-    exploratory analysis by identifying structural and statistical differences
-    between two versions of a dataset. Rather than performing a cell-by-cell
-    comparison, the function provides a high-level summary of how the datasets
-    differ.
+    This function compares an earlier and a later version of a pandas DataFrame
+    and returns a high-level summary of how the data has changed. It is designed
+    for data auditing, version tracking, and exploratory analysis rather than
+    cell-by-cell comparison.
 
     The comparison includes:
     - Columns that were added or removed
@@ -27,37 +27,8 @@ def data_version_diff(df_old, df_new):
 
     Returns
     -------
-    dict
-        A dictionary summarizing the differences between the two DataFrames with
-        the following keys:
-
-        - 'columns_added' : list of str
-            Column names present in `df_new` but not in `df_old`.
-
-        - 'columns_removed' : list of str
-            Column names present in `df_old` but not in `df_new`.
-
-        - 'row_count_change' : dict
-            A dictionary with keys:
-                - 'old' : int
-                    Number of rows in `df_old`.
-                - 'new' : int
-                    Number of rows in `df_new`.
-                - 'difference' : int
-                    Difference in row counts (`new - old`).
-
-        - 'missing_value_changes' : pandas.DataFrame
-            A DataFrame summarizing changes in missing value counts for columns
-            present in both datasets.
-
-        - 'numeric_summary_changes' : pandas.DataFrame
-            A DataFrame summarizing changes in summary statistics (e.g., mean,
-            standard deviation, minimum, maximum) for numeric columns present
-            in both datasets.
-
-        - 'dtype_changes' : pandas.DataFrame
-            A DataFrame listing columns whose data types differ between
-            `df_old` and `df_new`.
+    result: dict
+        A dictionary summarizing differences between the two DataFrames.
 
     Notes
     -----
@@ -68,49 +39,62 @@ def data_version_diff(df_old, df_new):
 
     Examples
     --------
-    >>> diff = data_version_diff(df_v1, df_v2)
+    >>> import pandas as pd
+    >>> from csvplus import data_version_diff, display_data_version_diff
+    >>> df_old = pd.DataFrame({
+    ...     "id": [1, 2, 3],
+    ...     "value": [10, 20, 30],
+    ...     "category": ["A", "B", "B"]
+    ... })
+    >>> df_new = pd.DataFrame({
+    ...     "id": [1, 2, 3, 4],
+    ...     "value": [10.0, 25.0, 30.0, 40.0],
+    ...     "category": ["A", "B", None, "C"],
+    ...     "new_col": [100, 200, 300, 400]
+    ... })
+    >>> diff = data_version_diff(df_old, df_new)
     >>> diff["columns_added"]
-    ['new_feature']
-
-    >>> diff["row_count_change"]["difference"]
-    150
+    ['new_col']
+    >>> diff["row_count_change"]["row_difference"]
+    1
+    >>> diff["dtype_changes"][["column", "old_dtype", "new_type"]]
     """
 
     # get column name sets
     old_cols = set(df_old.columns)
     new_cols = set(df_new.columns)
 
-    #columns added and removed
+    # columns added and removed
     columns_added = sorted(new_cols - old_cols)
     columns_removed = sorted(old_cols - new_cols)
 
-    #row_count_change
+    # row_count_change
     old_row_count = len(df_old)
     new_row_count = len(df_new)
     row_difference = new_row_count - old_row_count
 
-    #missing_value_changes
+    # missing_value_changes
     shared_columns = df_old.columns.intersection(df_new.columns) #shared columns
     missing_summary = pd.DataFrame({
         "missing_old": df_old[shared_columns].isna().sum(),
         "missing_new": df_new[shared_columns].isna().sum()
     })
 
-    #calculate the difference
+    # calculate the difference
     missing_summary["difference"] = missing_summary["missing_new"] - missing_summary["missing_old"]
 
-    #reset index so 'column' is a regular column
+    # reset index so 'column' is a regular column
     missing_summary = missing_summary.reset_index().rename(columns={"index": "column"})
 
-    #print(f"Missing value summary: {missing_summary}")
+    # print(f"Missing value summary: {missing_summary}")
 
     ## numeric_summary_changes
-    #identify numeric cols in both DFs
+    # identify numeric cols in both DFs
     numeric_cols_old = df_old.select_dtypes(include="number").columns
     numeric_cols_new = df_new.select_dtypes(include="number").columns
     shared_numeric_columns = numeric_cols_old.intersection(numeric_cols_new) 
 
-    #compute summary statistics for shared numeric columns
+    # compute summary statistics for shared numeric columns
     if len(shared_numeric_columns) == 0:
         numeric_summary_changes = pd.DataFrame(
             columns=["column", "statistic", "old", "new", "difference"]
@@ -137,7 +121,7 @@ def data_version_diff(df_old, df_new):
         )
 
     # --- dtype_changes ---
-    #for each shared column, compare types
+    # for each shared column, compare types
     dtype_changes_list = []
     for col in shared_columns:
         old_type = df_old[col].dtype
@@ -147,7 +131,7 @@ def data_version_diff(df_old, df_new):
                 "column": col, "old_dtype": str(old_type), "new_type": str(new_type)
                 })
 
-    #convert to DF
+    # convert to DF
     dtype_changes = pd.DataFrame(dtype_changes_list)
 
     result = {
@@ -172,6 +156,28 @@ def data_version_diff(df_old, df_new):
     return result
 
 def display_data_version_diff(result):
+    """
+    Print a formatted, human-readable summary of DataFrame version differences.
+
+    This function takes the output of `data_version_diff` and prints a structured
+    console report highlighting row count changes, schema changes, missing value
+    differences, numeric summary changes, and data type changes.
+
+    Parameters
+    ----------
+    result : dict
+        The dictionary returned by `data_version_diff`.
+
+    Notes
+    -----
+    - This function is intended for interactive use (e.g., notebooks or terminals).
+    - It does not return any value.
+
+    Examples
+    --------
+    >>> diff = data_version_diff(df_old, df_new)
+    >>> display_data_version_diff(diff)
+    """
     print("\n" + "=" * 60)
     print("DATA VERSION CHANGE SUMMARY")
     print("=" * 60)
@@ -236,4 +242,3 @@ def display_data_version_diff(result):
         print(" No data type changes.")
     else:
         print(dt.to_string(index=False))
-
