@@ -10,5 +10,6 @@ dependencies:
   - pip
   - pip:
     - faker
+    - flake8
      
   - pytest-cov
