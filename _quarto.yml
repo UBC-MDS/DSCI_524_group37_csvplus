@@ -1,0 +1,53 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  navbar:
+    background: primary
+    search: true
+    left:
+      - text: "Home"
+        file: index.qmd
+      - text: "Reference"
+        file: reference/index.qmd
+
+# tell quarto to read the generated sidebar
+metadata-files:
+  - reference/_sidebar.yml
+
+# tell quarto to read the generated styles
+format:
+  html:
+    css:
+      - reference/_styles-quartodoc.css
+
+quartodoc:
+  # the name used to import the package you want to create reference docs for
+  package: csvplus
+
+  # write sidebar and style data
+  sidebar: reference/_sidebar.yml
+  css: reference/_styles-quartodoc.css
+
+  sections:
+    - title: Data Loading
+      desc: Function for loading a CSV file and return a memory-optimized DataFrame.
+      contents:
+        - load_optimized_csv
+
+    - title: Data Comparison
+      desc: Function for summarizing structural and statistical differences between two DataFrame versions.
+      contents:
+        - data_version_diff
+        - data_version_diff.display_data_version_diff
+    
+    - title: Data Cleaning
+      desc: Function for resolving inconsistent string values to standardized names using fuzzy matching.
+      contents:
+        - data_correction
+    
+    - title: Reporting
+      desc: Function for generating detailed numeric and categorical summary reports, including missingness and confidence intervals.
+      contents:
+        - generate_report
