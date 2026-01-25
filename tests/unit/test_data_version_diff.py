@@ -120,10 +120,41 @@ def test_dtype_changes_detected():
     assert len(dtype_changes) == 1
     assert dtype_changes.iloc[0]["column"] == "a"
 
-# test: invalid input raises TypeError
-# def test_invalid_input_raises_typeerror():
-#     with pytest.raises(TypeError):
-#         data_version_diff([1, 2, 3], pd.DataFrame())
+def test_numeric_summary_changes_computed_correctly():
+    """
+    Ensure numeric summary differences are correctly calculated for shared numeric columns.
+    """
+
+    df_old = pd.DataFrame({"a": [1, 2, 3]})
+    df_new = pd.DataFrame({"a": [2, 3, 4]})  # all numbers increased by 1
+
+    result = data_version_diff(df_old, df_new)
+    numeric_summary = result["numeric_summary_changes"]
+
+    # Extract differences per statistic
+    diff_dict = dict(zip(numeric_summary["statistic"], numeric_summary["difference"]))
+
+    # min, max, mean should each increase by 1
+    assert diff_dict["min"] == 1
+    assert diff_dict["max"] == 1
+    assert diff_dict["mean"] == 1
+
+    # std difference should be 0 (no change)
+    assert diff_dict["std"] == 0
+
+def test_multiple_columns_added():
+    """
+    Verify that multiple added columns are correctly reported.
+    """
+
+    df_old = pd.DataFrame({"a": [1]})
+    df_new = pd.DataFrame({"a": [1], "b": [2], "c": [3]})
+
+    result = data_version_diff(df_old, df_new)
+
+    assert sorted(result["columns_added"]) == ["b", "c"]
+    assert result["columns_removed"] == []
+
 
 # test: empty dataframes
 def test_empty_dataframes():
