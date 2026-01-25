@@ -246,6 +246,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="csvplus.data_version_diff" class="level1">
 <h1>data_version_diff</h1>
 <p><code>data_version_diff</code></p>
+<p>A module that summarizes structural and statistical differences between two DataFrame versions.</p>
 <section id="functions" class="level2">
 <h2 class="anchored" data-anchor-id="functions">Functions</h2>
 <table class="caption-top table">
@@ -258,15 +259,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><a href="#csvplus.data_version_diff.data_version_diff">data_version_diff</a></td>
-<td>Compare two versions of a pandas DataFrame and summarize their differences.</td>
+<td>This function compares an earlier and a later version of a pandas DataFrame</td>
+</tr>
+<tr class="even">
+<td><a href="#csvplus.data_version_diff.display_data_version_diff">display_data_version_diff</a></td>
+<td>Print a formatted, human-readable summary of DataFrame version differences.</td>
 </tr>
 </tbody>
 </table>
 <section id="csvplus.data_version_diff.data_version_diff" class="level3">
 <h3 class="anchored" data-anchor-id="csvplus.data_version_diff.data_version_diff">data_version_diff</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data_version_diff.data_version_diff(df_old, df_new)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Compare two versions of a pandas DataFrame and summarize their differences.</p>
-<p>This function is intended to support data auditing, reproducibility, and exploratory analysis by identifying structural and statistical differences between two versions of a dataset. Rather than performing a cell-by-cell comparison, the function provides a high-level summary of how the datasets differ.</p>
+<p>This function compares an earlier and a later version of a pandas DataFrame and returns a high-level summary of how the data has changed. It is designed for data auditing, version tracking, and exploratory analysis rather than cell-by-cell comparison.</p>
 <p>The comparison includes: - Columns that were added or removed - Changes in row counts - Changes in missing values by column - Changes in summary statistics for numeric columns - Changes in data types</p>
 <section id="parameters" class="level4 doc-section doc-section-parameters">
 <h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters">Parameters</h4>
@@ -305,9 +309,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h4 class="doc-section doc-section-returns anchored" data-anchor-id="returns">Returns</h4>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 0%">
-<col style="width: 0%">
-<col style="width: 98%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 80%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -318,9 +322,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td></td>
+<td>result</td>
 <td>dict</td>
-<td>A dictionary summarizing the differences between the two DataFrames with the following keys: - ‘columns_added’ : list of str Column names present in <code>df_new</code> but not in <code>df_old</code>. - ‘columns_removed’ : list of str Column names present in <code>df_old</code> but not in <code>df_new</code>. - ‘row_count_change’ : dict A dictionary with keys: - ‘old’ : int Number of rows in <code>df_old</code>. - ‘new’ : int Number of rows in <code>df_new</code>. - ‘difference’ : int Difference in row counts (<code>new - old</code>). - ‘missing_value_changes’ : pandas.DataFrame A DataFrame summarizing changes in missing value counts for columns present in both datasets. - ‘numeric_summary_changes’ : pandas.DataFrame A DataFrame summarizing changes in summary statistics (e.g., mean, standard deviation, minimum, maximum) for numeric columns present in both datasets. - ‘dtype_changes’ : pandas.DataFrame A DataFrame listing columns whose data types differ between <code>df_old</code> and <code>df_new</code>.</td>
+<td>A dictionary summarizing differences between the two DataFrames.</td>
 </tr>
 </tbody>
 </table>
@@ -335,11 +339,70 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="examples" class="level4 doc-section doc-section-examples">
 <h4 class="doc-section doc-section-examples anchored" data-anchor-id="examples">Examples</h4>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> diff <span class="op">=</span> data_version_diff(df_v1, df_v2)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> diff[<span class="st">"columns_added"</span>]</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>[<span class="st">'new_feature'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> diff[<span class="st">"row_count_change"</span>][<span class="st">"difference"</span>]</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dv">150</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> <span class="im">from</span> csvplus <span class="im">import</span> data_version_diff, display_data_version_diff</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df_old <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>...     <span class="st">"id"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>...     <span class="st">"value"</span>: [<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>],</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>...     <span class="st">"category"</span>: [<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>... })</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> df_new <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>...     <span class="st">"id"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>],</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>...     <span class="st">"value"</span>: [<span class="fl">10.0</span>, <span class="fl">25.0</span>, <span class="fl">30.0</span>, <span class="fl">40.0</span>],</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>...     <span class="st">"category"</span>: [<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="va">None</span>, <span class="st">"C"</span>],</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>...     <span class="st">"new_col"</span>: [<span class="dv">100</span>, <span class="dv">200</span>, <span class="dv">300</span>, <span class="dv">400</span>]</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>... })</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> diff <span class="op">=</span> data_version_diff(df_old, df_new)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> diff[<span class="st">"columns_added"</span>]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>[<span class="st">'new_col'</span>]</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> diff[<span class="st">"row_count_change"</span>][<span class="st">"row_difference"</span>]</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> diff[<span class="st">"dtype_changes"</span>][[<span class="st">"column"</span>, <span class="st">"old_dtype"</span>, <span class="st">"new_type"</span>]]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="csvplus.data_version_diff.display_data_version_diff" class="level3">
+<h3 class="anchored" data-anchor-id="csvplus.data_version_diff.display_data_version_diff">display_data_version_diff</h3>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data_version_diff.display_data_version_diff(result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Print a formatted, human-readable summary of DataFrame version differences.</p>
+<p>This function takes the output of <code>data_version_diff</code> and prints a structured console report highlighting row count changes, schema changes, missing value differences, numeric summary changes, and data type changes.</p>
+<section id="parameters-1" class="level4 doc-section doc-section-parameters">
+<h4 class="doc-section doc-section-parameters anchored" data-anchor-id="parameters-1">Parameters</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 63%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>result</td>
+<td>dict</td>
+<td>The dictionary returned by <code>data_version_diff</code>.</td>
+<td><em>required</em></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="notes-1" class="level4 doc-section doc-section-notes">
+<h4 class="doc-section doc-section-notes anchored" data-anchor-id="notes-1">Notes</h4>
+<ul>
+<li>This function is intended for interactive use (e.g., notebooks or terminals).</li>
+<li>It does not return any value.</li>
+</ul>
+</section>
+<section id="examples-1" class="level4 doc-section doc-section-examples">
+<h4 class="doc-section doc-section-examples anchored" data-anchor-id="examples-1">Examples</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> diff <span class="op">=</span> data_version_diff(df_old, df_new)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="op">&gt;&gt;&gt;</span> display_data_version_diff(diff)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
