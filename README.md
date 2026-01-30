@@ -2,8 +2,11 @@
 
 |        |        |
 |--------|--------|
-| Package | [![Latest PyPI Version](https://img.shields.io/pypi/v/csvplus-1.svg)](https://pypi.org/project/csvplus-1/) [![Supported Python Versions](https://img.shields.io/pypi/pyversions/csvplus-1.svg)](https://pypi.org/project/csvplus-1/)  |
+| CI/CD  | [![CI](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/actions/workflows/build.yml/badge.svg)](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/actions/workflows/build.yml) [![codecov](https://codecov.io/github/UBC-MDS/DSCI_524_group37_csvplus/graph/badge.svg?token=zmpNtn6nI6)](https://codecov.io/github/UBC-MDS/DSCI_524_group37_csvplus) |
+| Package | [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/) |
 | Meta   | [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md) |
+
+
 
 > **Note**: PyPI badges are included for completeness but may not reflect a published package.
 
