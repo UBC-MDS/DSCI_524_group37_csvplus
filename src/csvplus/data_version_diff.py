@@ -43,7 +43,7 @@ def data_version_diff(df_v1, df_v2):
     Examples
     --------
     >>> import pandas as pd
-    >>> from csvplus.data_version_diff import data_version_diff, display_data_version_diff
+    >>> from csvplus.data_version_diff import data_version_diff
     >>>
     >>> # Original dataset
     >>> df_v1 = pd.DataFrame({
@@ -64,7 +64,7 @@ def data_version_diff(df_v1, df_v2):
     >>> diff = data_version_diff(df_v1, df_v2)
     >>>
     >>> # Check which columns were added
-    >>> diff["columns_added"]       
+    >>> diff["columns_added"]
     >>>
     >>> # Check which columns were removed
     >>> diff["columns_removed"]
@@ -73,7 +73,7 @@ def data_version_diff(df_v1, df_v2):
     >>> diff["row_count_change"]
     >>>
     >>> # Missing value changes
-    >>> diff["missing_value_changes"] 
+    >>> diff["missing_value_changes"]
     >>>
     >>> # Numeric summary changes
     >>> diff["numeric_summary_changes"]
