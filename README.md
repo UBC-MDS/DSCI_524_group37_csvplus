@@ -77,8 +77,20 @@ from csvplus.data_correction import resolve_string_value
 from csvplus.generate_report import summary_report
 
 # --- compare two DataFrame versions ---
-df_old = pd.DataFrame({"id": [1,2,3], "value": [10,20,30]})
-df_new = pd.DataFrame({"id": [1,2,3,4], "value": [10,25,30,40], "category": ["A","B",None,"C"], "amount": [100,200,300,400]})
+# Original dataset
+df_v1 = pd.DataFrame({
+    "id": [1, 2, 3],
+    "value": [10, 20, 30],
+    "status": [1, 0, 1]
+})
+
+# Updated dataset
+df_v2 = pd.DataFrame({
+    "id": [1, 2, 3, 4],
+    "value": ["10", "25", "30", "40"],  # dtype change: int → str
+    "category": ["A", "B", None, "C"],
+    "amount": [100, 200, 300, 400]
+})
 
 diff = data_version_diff(df_old, df_new)
 display_data_version_diff(diff)  #prints a human-readable summary of the comparison.
