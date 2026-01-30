@@ -51,7 +51,7 @@ Install the latest test version from test PyPI
 
 ```bash
 # 1. Create and activate a new Python 3.11 environment (recommended)
-conda create -n py311 python=3.11 -y
+conda create -n py311 python=3.11 -y    
 conda activate py311
 
 # 2. Upgrade pip to ensure latest package handling
@@ -67,12 +67,6 @@ pip install --index-url https://test.pypi.org/simple/  --extra-index-url https:/
 
 > Note: Step 3 is only required on macOS due to a known rapidfuzz build issue. On Linux or Windows, pip will install dependencies automatically.
 
-Or install from PyPI (once published)
-
-```bash
-pip install csvplus
-```
-
 ## Usage Examples
 
 ```python
@@ -87,7 +81,7 @@ df_old = pd.DataFrame({"id": [1,2,3], "value": [10,20,30]})
 df_new = pd.DataFrame({"id": [1,2,3,4], "value": [10,25,30,40], "category": ["A","B",None,"C"], "amount": [100,200,300,400]})
 
 diff = data_version_diff(df_old, df_new)
-display_data_version_diff(diff)
+display_data_version_diff(diff)  #prints a human-readable summary of the comparison.
 
 # --- resolve string value --
 df1 = pd.DataFrame({ "company": ["Google", "Gooogle", "Gogle", "Microsoft", "Microsof"]})
@@ -108,14 +102,27 @@ print(categorical_stats.head())
 
 ### Development Setup
 
-Create conda environment and clone the repo.
+Clone the repo, create conda environment and register the csvplus environment as a Jupyter kernel.
 
 ```bash
+git clone https://github.com/UBC-MDS/DSCI_524_group37_csvplus
+cd DSCI_524_group37_csvplus
+
 conda env create -f environment.yml
 conda activate csvplus
 
-git clone https://github.com/UBC-MDS/DSCI_524_group37_csvplus
-cd DSCI_524_group37_csvplus
+# Optional: register the environment as a Jupyter/Quarto kernel
+# (required only if running notebooks or building documentation)
+python -m ipykernel install --user --name csvplus --display-name "csvplus"
+
+```
+
+### Install csvplus package (editable mode)
+
+This allows you to edit the source code locally while using the package.
+
+```bash
+pip install -e .
 ```
 
 ### Run Tests and Coverage
@@ -127,14 +134,6 @@ All tests are written using `pytest`. To run the full test suite and generate a 
 pip install pytest pytest-cov
 
 pytest --cov=csvplus --cov-report=term-missing
-```
-
-### Install csvplus package (editable mode)
-
-This allows you to edit the source code locally while using the package.
-
-```bash
-pip install -e .
 ```
 
 ### Build and Preview Documentation
