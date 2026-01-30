@@ -54,7 +54,7 @@ Install the latest test version from test PyPI
 
 ```bash
 # 1. Create and activate a new Python 3.11 environment (recommended)
-conda create -n py311 python=3.11 -y
+conda create -n py311 python=3.11 -y    
 conda activate py311
 
 # 2. Upgrade pip to ensure latest package handling
@@ -70,12 +70,6 @@ pip install --index-url https://test.pypi.org/simple/  --extra-index-url https:/
 
 > Note: Step 3 is only required on macOS due to a known rapidfuzz build issue. On Linux or Windows, pip will install dependencies automatically.
 
-Or install from PyPI (once published)
-
-```bash
-pip install csvplus
-```
-
 ## Usage Examples
 
 ```python
@@ -86,39 +80,69 @@ from csvplus.data_correction import resolve_string_value
 from csvplus.generate_report import summary_report
 
 # --- compare two DataFrame versions ---
-df_old = pd.DataFrame({"id": [1,2,3], "value": [10,20,30]})
-df_new = pd.DataFrame({"id": [1,2,3,4], "value": [10,25,30,40], "category": ["A","B",None,"C"], "amount": [100,200,300,400]})
+# Original dataset
+df_v1 = pd.DataFrame({
+    "id": [1, 2, 3],
+    "value": [10, 20, 30],
+    "status": [1, 0, 1]
+})
 
-diff = data_version_diff(df_old, df_new)
-display_data_version_diff(diff)
+# Updated dataset
+df_v2 = pd.DataFrame({
+    "id": [1, 2, 3, 4],
+    "value": ["10", "25", "30", "40"],
+    "category": ["A", "B", None, "C"],
+    "amount": [100, 200, 300, 400]
+})
+
+diff = data_version_diff(df_v1, df_v2)
+display_data_version_diff(diff)  #prints a human-readable summary of the comparison.
 
 # --- resolve string value --
 df1 = pd.DataFrame({ "company": ["Google", "Gooogle", "Gogle", "Microsoft", "Microsof"]})
 resolve_string_value(df1, column="company", canonical_values=["Google", "Microsoft"],threshold=80)
-print(df)
-
-# --- load a CSV file with optimized memory usage ---
-df = load_optimized_csv("large_dataset.csv")
-print(df1.dtypes) 
+print(df1) 
 
 # --- Generate summary statistics ---
+ df = pd.DataFrame({
+    'age': [25, 21, 32, None, 40],
+    'city': ['NYC', 'LA', 'NYC', 'SF', 'LA']
+     })
 numeric_stats, categorical_stats = summary_report(df)
 print(numeric_stats.head())
 print(categorical_stats.head())
+
+# --- load a CSV file with optimized memory usage ---
+df1 = load_optimized_csv("large_dataset.csv")
+print(df1.dtypes)
+
 ```
 
 ## Developers
 
 ### Development Setup
 
-Create conda environment and clone the repo.
+Clone the repo, create conda environment and register the csvplus environment as a Jupyter kernel.
 
 ```bash
+git clone https://github.com/UBC-MDS/DSCI_524_group37_csvplus
+cd DSCI_524_group37_csvplus
+
 conda env create -f environment.yml
 conda activate csvplus
 
-git clone https://github.com/UBC-MDS/DSCI_524_group37_csvplus
-cd DSCI_524_group37_csvplus
+# Optional: register the environment as a Jupyter/Quarto kernel
+# (required only if kernel is not registered correctly)
+python -m ipykernel install --user --name csvplus --display-name "csvplus"
+
+```
+
+### Install csvplus package (editable mode)
+
+This allows you to edit the source code locally while using the package.
+
+```bash
+pip install -e .
 ```
 
 ### Run Tests and Coverage
@@ -130,14 +154,6 @@ All tests are written using `pytest`. To run the full test suite and generate a 
 pip install pytest pytest-cov
 
 pytest --cov=csvplus --cov-report=term-missing
-```
-
-### Install csvplus package (editable mode)
-
-This allows you to edit the source code locally while using the package.
-
-```bash
-pip install -e .
 ```
 
 ### Build and Preview Documentation

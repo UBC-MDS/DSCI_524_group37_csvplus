@@ -100,6 +100,8 @@ def summary_report(
     Examples
     --------
     >>> import pandas as pd
+    >>> from csvplus.generate_report import summary_report
+    >>>
     >>> df = pd.DataFrame({
     ...     'age': [25, 21, 32, None, 40],
     ...     'city': ['NYC', 'LA', 'NYC', 'SF', 'LA']

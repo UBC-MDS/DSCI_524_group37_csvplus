@@ -49,6 +49,7 @@ def resolve_string_value(df, column_name, resolved_names, threshold):
     Examples
     --------
     >>> import pandas as pd
+    >>> from csvplus.resolve_string_value import resolve_string_value
     >>> data = pd.DataFrame({
     ...     "company_name": ["Google", "Google Inc.",
     ...     "Gogle", "Microsoftt", "Micro-soft"],
