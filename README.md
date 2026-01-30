@@ -112,7 +112,7 @@ conda env create -f environment.yml
 conda activate csvplus
 
 # Optional: register the environment as a Jupyter/Quarto kernel
-# (required only if running notebooks or building documentation)
+# (required only if kernel is not registered correctly)
 python -m ipykernel install --user --name csvplus --display-name "csvplus"
 
 ```
