@@ -87,27 +87,32 @@ df_v1 = pd.DataFrame({
 # Updated dataset
 df_v2 = pd.DataFrame({
     "id": [1, 2, 3, 4],
-    "value": ["10", "25", "30", "40"],  # dtype change: int → str
+    "value": ["10", "25", "30", "40"],
     "category": ["A", "B", None, "C"],
     "amount": [100, 200, 300, 400]
 })
 
-diff = data_version_diff(df_old, df_new)
+diff = data_version_diff(df_v1, df_v2)
 display_data_version_diff(diff)  #prints a human-readable summary of the comparison.
 
 # --- resolve string value --
 df1 = pd.DataFrame({ "company": ["Google", "Gooogle", "Gogle", "Microsoft", "Microsof"]})
 resolve_string_value(df1, column="company", canonical_values=["Google", "Microsoft"],threshold=80)
-print(df)
-
-# --- load a CSV file with optimized memory usage ---
-df = load_optimized_csv("large_dataset.csv")
-print(df1.dtypes) 
+print(df1) 
 
 # --- Generate summary statistics ---
+ df = pd.DataFrame({
+    'age': [25, 21, 32, None, 40],
+    'city': ['NYC', 'LA', 'NYC', 'SF', 'LA']
+     })
 numeric_stats, categorical_stats = summary_report(df)
 print(numeric_stats.head())
 print(categorical_stats.head())
+
+# --- load a CSV file with optimized memory usage ---
+df1 = load_optimized_csv("large_dataset.csv")
+print(df1.dtypes)
+
 ```
 
 ## Developers

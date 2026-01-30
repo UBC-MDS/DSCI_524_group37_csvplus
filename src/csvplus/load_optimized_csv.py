@@ -71,6 +71,7 @@ def load_optimized_csv(
 
     Examples
     --------
+    >>> from csvplus.load_optimized_csv import load_optimized_csv
     >>> df = load_optimized_csv(
     ...     "large_dataset.csv",
     ...     nrows=100000,
