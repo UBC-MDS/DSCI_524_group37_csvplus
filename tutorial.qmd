@@ -1,0 +1,227 @@
+---
+title: "csvplus"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-fold: false
+---
+
+## Overview
+
+In real-world data work, CSV files are rarely clean, stable, or small. They often contain inconsistent values, evolve over time, and can be large enough to cause performance issues when loaded naively.
+
+This tutorial demonstrates a **complete CSV auditing workflow** using the **csvplus** package. By the end, you will know how to:
+
+- Load large CSV files efficiently
+- Resolve inconsistent string values
+- Generate concise data summaries
+- Compare multiple versions of a dataset
+- Produce human-readable change reports
+
+The goal is not just to show individual functions, but to illustrate how they work together in a realistic data science workflow.
+
+
+## Scenario: Auditing a Partner Dataset
+
+Suppose you receive a CSV file from a partner organization containing company-level data. The file:
+
+- Is relatively large
+- Contains inconsistent company name spellings
+- Has been updated since the last delivery
+
+You want to load the data safely, clean it, understand its structure, and identify what has changed between versions.
+
+
+## Step 1: Efficiently Loading a Large CSV
+
+Rather than using `pandas.read_csv()` directly, **csvplus** provides `load_optimized_csv()` to reduce memory usage automatically.
+
+```{python}
+#| eval: false
+from csvplus.load_optimized_csv import load_optimized_csv
+
+# Load the first version of the dataset
+df_v1 = load_optimized_csv(
+    "company_data_v1.csv",
+    usecols=["company", "revenue", "employees", "region"],
+    no_category_cols=["company"]
+)
+
+# Inspect memory usage
+df_v1.info(memory_usage="deep")
+```
+
+### What this function does
+
+- Downcasts numeric columns where possible
+- Converts low-cardinality string columns to `category`
+- Uses sparse data types for columns with many missing values
+- Reduces memory usage without changing the data semantics
+
+This is especially useful when working with large or repeated CSV ingestions.
+
+
+## Step 2: Resolving Inconsistent String Values
+
+Text fields such as company names are often inconsistent due to typos or formatting differences. The `resolve_string_value()` function uses fuzzy matching to standardize values.
+
+```{python}
+#| eval: false
+from csvplus.data_correction import resolve_string_value
+
+resolve_string_value(
+    df_v1,
+    column_name="company",
+    resolved_names=["Google", "Microsoft", "Amazon"],
+    threshold=80
+)
+```
+
+After running this function:
+
+- Similar spellings are mapped to a canonical value
+- Changes are applied **in-place** to the DataFrame
+- Downstream analysis becomes more reliable
+
+
+## Step 3: Generating a Data Summary Report
+
+Before performing deeper analysis, it is often helpful to understand the structure and quality of the dataset.
+
+```{python}
+#| eval: false
+from csvplus.generate_report import summary_report
+
+numeric_stats, categorical_stats = summary_report(df_v1)
+
+numeric_stats
+```
+
+The numeric summary includes:
+
+- Missing value proportions
+- Distribution statistics
+- Confidence intervals
+
+To inspect categorical columns:
+
+```{python}
+#| eval: false
+categorical_stats
+```
+
+This makes it easy to identify high-cardinality columns, constant values, and potential data quality issues.
+
+
+## Step 4: Comparing Dataset Versions
+
+A week later, you receive an updated CSV file of the original CSV with potential schema and data changes. At this point, you want to understand **what changed** compared to the original dataset. After loading the dataset, the `data_version_diff()` function computes a structured comparison between the two DataFrames.
+
+```{python}
+import pandas as pd
+from csvplus.data_version_diff import data_version_diff
+
+# Original dataset
+df_v1 = pd.DataFrame({
+    "id": [1, 2, 3],
+    "value": [10, 20, 30],
+    "status": [1, 0, 1]
+})
+
+# Updated dataset
+df_v2 = pd.DataFrame({
+    "id": [1, 2, 3, 4],
+    "value": ["10", "25", "30", "40"],  # dtype change: int → str
+    "category": ["A", "B", None, "C"],
+    "amount": [100, 200, 300, 400]
+})
+
+# Compute differences
+diff = data_version_diff(df_v1, df_v2)
+diff
+```
+
+The resulting object contains detailed information about:
+
+- Row count changes
+- Columns added or removed
+- Data type changes
+- Missing value differences
+- Numeric summary shifts
+
+
+## Step 5: Inspecting Dataframe Changes Programmatically
+
+You can explore specific components of the diff object directly:
+
+```{python}
+diff["columns_added"]
+```
+
+```{python}
+diff["row_count_change"]
+```
+
+```{python}
+diff["missing_value_changes"]
+```
+
+```{python}
+diff["numeric_summary_changes"]
+```
+
+This is useful for building automated QA checks or data validation pipelines.
+
+
+## Step 6: Displaying a Human-Readable Report
+
+For interactive use, **csvplus** provides a clean, console-friendly summary of changes in your dataframes from step 5.
+
+```{python}
+from csvplus.data_version_diff import display_data_version_diff
+
+display_data_version_diff(diff)
+```
+
+This produces a readable overview of:
+
+- Structural changes
+- Data quality differences
+- Summary statistic shifts
+
+Ideal for notebooks, terminals, and exploratory analysis.
+
+
+## When to Use csvplus
+
+Use **csvplus** when you need to:
+
+- Load large CSV files safely and efficiently
+- Standardize inconsistent string values
+- Quickly summarize unfamiliar datasets
+- Track changes between dataset versions
+- Perform lightweight data audits
+
+
+## When NOT to Use csvplus
+
+While csvplus is designed to make working with CSV files easier and safer, it is not always the right tool. You may want to avoid using this package in the following situations:
+
+- You are working with very large datasets (GBs or TBs) that require distributed processing. In those cases, tools like Spark, DuckDB, or database-native ingestion pipelines will be more appropriate.
+
+- Your data is not tabular (e.g., nested JSON, logs, images, or free text). csvplus is intentionally scoped to CSV-like, row–column data.
+
+- You need real-time or streaming ingestion. This package is aimed at batch-style analysis and auditing, not streaming pipelines.
+
+- You already have a well-tested, stable CSV pipeline that meets your needs. csvplus is most valuable when dealing with messy, unfamiliar, or externally sourced CSV files.
+
+- You need advanced statistical modeling or machine learning. csvplus focuses on inspection, validation, and comparison — it pairs well with pandas, scikit-learn, or statsmodels rather than replacing them.
+
+
+## Summary
+
+This tutorial demonstrated how **csvplus** supports an end-to-end CSV auditing workflow. Rather than addressing isolated tasks, the package enables you to move confidently from raw data ingestion to version comparison and reporting.
+
+By combining efficient loading, cleaning utilities, summary statistics, and version diffs, **csvplus** helps make messy CSV data more manageable and transparent.
+
