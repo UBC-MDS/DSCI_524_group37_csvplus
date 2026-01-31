@@ -1,6 +1,5 @@
 """
-A module that summarizes structural and statistical
-differences between two DataFrame versions.
+Summarize structural and statistical differences between two DataFrames.
 """
 import pandas as pd
 
