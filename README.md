@@ -1,12 +1,10 @@
 # csvplus
 
-|        |        |
-|--------|--------|
-| CI/CD  | [![CI](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/actions/workflows/build.yml/badge.svg)](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/actions/workflows/build.yml) [![codecov](https://codecov.io/github/UBC-MDS/DSCI_524_group37_csvplus/graph/badge.svg?token=zmpNtn6nI6)](https://codecov.io/github/UBC-MDS/DSCI_524_group37_csvplus) |
-| Package | [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/) |
-| Meta   | [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md) |
-
-
+|         |                                                                                                                                                                                                                                                                                                                                                           |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| CI/CD   | [![CI](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/actions/workflows/build.yml/badge.svg)](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/actions/workflows/build.yml) [![codecov](https://codecov.io/github/UBC-MDS/DSCI_524_group37_csvplus/graph/badge.svg?token=zmpNtn6nI6)](https://codecov.io/github/UBC-MDS/DSCI_524_group37_csvplus) |
+| Package | [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)                                                                                                                                                                                                                                                  |
+| Meta    | [![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)                                                                                                                                                                                                                                   |
 
 > **Note**: PyPI badges are included for completeness but may not reflect a published package.
 
@@ -30,12 +28,12 @@ The package is intended to support:
 
 This package addresses common data preprocessing and exploration tasks through the following functions:
 
-|Function    |Description    |
-|--------|--------|
-|`load_optimized_csv`|Loads a CSV file and automatically downcasts data types to minimize memory footprint.|
-|`data_version_diff`|Compare two versions of a pandas DataFrame and return a structured summary of schema, row count, missing values, numeric statistics, and data type changes.|
-|`resolve_string_value`|Consolidating spelling variations of the same data value in a column.|
-|`summary_report`|Produce a list of descriptive statistics of the data and information about missing values.|
+| Function               | Description                                                                                                                                                 |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `load_optimized_csv`   | Loads a CSV file and automatically downcasts data types to minimize memory footprint.                                                                       |
+| `data_version_diff`    | Compare two versions of a pandas DataFrame and return a structured summary of schema, row count, missing values, numeric statistics, and data type changes. |
+| `resolve_string_value` | Consolidating spelling variations of the same data value in a column.                                                                                       |
+| `summary_report`       | Produce a list of descriptive statistics of the data and information about missing values.                                                                  |
 
 Some functions operate on **CSV files**, while others work directly on **pandas DataFrames**, allowing users to integrate `csvplus` into existing pandas-based workflows.
 
@@ -43,8 +41,7 @@ Our package fits into the Python preprocessing framework. Currently, the [`panda
 
 `csvplus` extends these tools with automated memory optimization, dataset version comparison and high-level summaries useful for auditing and exploratory analysis
 
-Full API reference and examples are available at: https://ubc-mds.github.io/DSCI_524_group37_csvplus/reference/
----
+## Full API reference and examples are available at: https://ubc-mds.github.io/DSCI_524_group37_csvplus/reference/
 
 ## Get started
 
@@ -54,7 +51,7 @@ Install the latest test version from test PyPI
 
 ```bash
 # 1. Create and activate a new Python 3.11 environment (recommended)
-conda create -n py311 python=3.11 -y    
+conda create -n py311 python=3.11 -y
 conda activate py311
 
 # 2. Upgrade pip to ensure latest package handling
@@ -101,7 +98,7 @@ display_data_version_diff(diff)  #prints a human-readable summary of the compari
 # --- resolve string value --
 df1 = pd.DataFrame({ "company": ["Google", "Gooogle", "Gogle", "Microsoft", "Microsof"]})
 resolve_string_value(df1, column="company", canonical_values=["Google", "Microsoft"],threshold=80)
-print(df1) 
+print(df1)
 
 # --- Generate summary statistics ---
  df = pd.DataFrame({
@@ -113,8 +110,36 @@ print(numeric_stats.head())
 print(categorical_stats.head())
 
 # --- load a CSV file with optimized memory usage ---
-df1 = load_optimized_csv("large_dataset.csv")
-print(df1.dtypes)
+
+# If you have a CSV file, simply load it:
+df = load_optimized_csv("your_dataset.csv")
+print(df.head())
+print(df.dtypes)
+
+# Self-contained example (copy-paste to try it out):
+import tempfile
+import os
+
+sample_data = pd.DataFrame({
+    "int8_col": [1, 2, 100, -100, 5],
+    "int16_col": [1000, -1000, 30000, -30000, 500],
+    "float_col": [1.123, 2.234, 3.345, 4.456, 5.567],
+    "sparse_col": [0, 0, 0, 0, 1],       # 80% zeros -> will be sparse
+    "category_col": ["A", "A", "B", "B", "C"]  # low cardinality -> categorical
+})
+
+with tempfile.TemporaryDirectory() as tmp_dir:
+    csv_path = os.path.join(tmp_dir, "sample.csv")
+    sample_data.to_csv(csv_path, index=False)
+
+    df_optimized = load_optimized_csv(csv_path)
+    print("Optimized dtypes:")
+    print(df_optimized.dtypes)
+    # int8_col      -> int8 (downcasted)
+    # int16_col     -> int16 (downcasted)
+    # float_col     -> float32 (downcasted)
+    # sparse_col    -> Sparse[int8, 0] (sparse conversion)
+    # category_col  -> category (categorical conversion)
 
 ```
 
@@ -160,7 +185,7 @@ pytest --cov=csvplus --cov-report=term-missing
 
 ```bash
 quartodoc build
-quarto preview 
+quarto preview
 quarto render
 ```
 
