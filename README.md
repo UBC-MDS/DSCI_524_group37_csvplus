@@ -97,7 +97,7 @@ display_data_version_diff(diff)  #prints a human-readable summary of the compari
 
 # --- resolve string value --
 df1 = pd.DataFrame({ "company": ["Google", "Gooogle", "Gogle", "Microsoft", "Microsof"]})
-resolve_string_value(df1, column="company", canonical_values=["Google", "Microsoft"],threshold=80)
+resolve_string_value(df1, "company", ["Google", "Microsoft"], 80)
 print(df1)
 
 # --- Generate summary statistics ---
