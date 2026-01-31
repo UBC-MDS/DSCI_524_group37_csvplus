@@ -1,5 +1,5 @@
 """
-A module that replaced data values to the resolved name within a column.
+A module that replaces data values to the resolved name within a column.
 Requires `pandas` and `rapidfuzz`.
 """
 
