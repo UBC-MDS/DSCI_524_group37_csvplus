@@ -5,7 +5,6 @@ Claude.ai was used to perform the following tasks:
 - Suggest edge cases that should be addressed in test suite and function code.
 - Troubleshooting test construction, particularly dealing with testing for
   Null and NaN values.
-- Learning how to use Class with pytest to group tests.
 """
 
 import pytest
