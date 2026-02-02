@@ -75,6 +75,8 @@ from csvplus.data_version_diff import data_version_diff, display_data_version_di
 from csvplus.load_optimized_csv import load_optimized_csv
 from csvplus.data_correction import resolve_string_value
 from csvplus.generate_report import summary_report
+import tempfile
+import os
 
 # --- compare two DataFrame versions ---
 # Original dataset
@@ -101,7 +103,7 @@ resolve_string_value(df1, "company", ["Google", "Microsoft"], 80)
 print(df1)
 
 # --- Generate summary statistics ---
- df = pd.DataFrame({
+df = pd.DataFrame({
     'age': [25, 21, 32, None, 40],
     'city': ['NYC', 'LA', 'NYC', 'SF', 'LA']
      })
@@ -110,16 +112,6 @@ print(numeric_stats.head())
 print(categorical_stats.head())
 
 # --- load a CSV file with optimized memory usage ---
-
-# If you have a CSV file, simply load it:
-df = load_optimized_csv("your_dataset.csv")
-print(df.head())
-print(df.dtypes)
-
-# Self-contained example (copy-paste to try it out):
-import tempfile
-import os
-
 sample_data = pd.DataFrame({
     "int8_col": [1, 2, 100, -100, 5],
     "int16_col": [1000, -1000, 30000, -30000, 500],
@@ -140,7 +132,6 @@ with tempfile.TemporaryDirectory() as tmp_dir:
     # float_col     -> float32 (downcasted)
     # sparse_col    -> Sparse[int8, 0] (sparse conversion)
     # category_col  -> category (categorical conversion)
-
 ```
 
 ## Developers
@@ -167,7 +158,7 @@ python -m ipykernel install --user --name csvplus --display-name "csvplus"
 This allows you to edit the source code locally while using the package.
 
 ```bash
-pip install -e .
+pip install -e ".[docs]"
 ```
 
 ### Run Tests and Coverage
@@ -175,9 +166,6 @@ pip install -e .
 All tests are written using `pytest`. To run the full test suite and generate a coverage report execute:
 
 ```bash
-# install coverage tools if not yet installed
-pip install pytest pytest-cov
-
 pytest --cov=csvplus --cov-report=term-missing
 ```
 
@@ -185,9 +173,12 @@ pytest --cov=csvplus --cov-report=term-missing
 
 ```bash
 quartodoc build
-quarto preview
 quarto render
+quarto preview
 ```
+
+### Deploy Documentation (automated)
+Documentation is deployed automatically by the `build-docs` job in `.github/workflows/docs-publish.yml` on a pull request (PR) aimed at the main branch.
 
 ## Contributors
 
@@ -196,7 +187,6 @@ quarto render
 - Purity Jangaya
 - Ralah Aaqil
 
-## License
-
-- Copyright © 2026
+## Copyright
+- Copyright © 2026 Alan Liu, Oswin Gan, Purity Jangaya, Ralah Aaqil
 - Free software distributed under the [MIT License](./LICENSE).
