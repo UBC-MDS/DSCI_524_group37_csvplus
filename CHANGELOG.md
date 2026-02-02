@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] (Milestone 4) - 2026-02-02
+
+### Fixed
+- PR [#114](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/pull/114) to reorganize `README.md` for clarity and usability for both users and developers to address peer review Issue [#103](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/issues/103)
+- PR [#121](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/pull/121) to fix `resolve_string_value()` example in `README.md` to address peer review Issue [#100](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/issues/100)
+
+
 ## [2.0.0] (Milestone 3) - 2026-01-25
 
 ### Added
