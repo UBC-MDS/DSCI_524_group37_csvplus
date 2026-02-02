@@ -63,7 +63,7 @@ dev = [
 
 docs = [
     "quartodoc",
-    "jupyter"'
+    "jupyter",
     "nbformat",
     "ipykernel",
     "sphinx~=8.0",
