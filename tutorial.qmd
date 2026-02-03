@@ -41,9 +41,9 @@ Rather than using `pandas.read_csv()` directly, **csvplus** provides `load_optim
 #| eval: false
 from csvplus.load_optimized_csv import load_optimized_csv
 
-# Load a large csv dataset
+# Load the first version of the dataset
 df_v1 = load_optimized_csv(
-    "large_dataset.csv",
+    "company_data_v1.csv",
     usecols=["company", "revenue", "employees", "region"],
     no_category_cols=["company"]
 )
@@ -67,21 +67,15 @@ This is especially useful when working with large or repeated CSV ingestions.
 Text fields such as company names are often inconsistent due to typos or formatting differences. The `resolve_string_value()` function uses fuzzy matching to standardize values.
 
 ```{python}
-import pandas as pd
+#| eval: false
 from csvplus.data_correction import resolve_string_value
 
-data = pd.DataFrame({
-     "company": ["Google", "Google Inc.",
-     "Gogle", "Microsoftt", "Micro-soft"],
-     "num_searches": [1, 2, 3, 4, 5]
-     })
 resolve_string_value(
-    data,
+    df_v1,
     column_name="company",
     resolved_names=["Google", "Microsoft", "Amazon"],
     threshold=80
 )
-print(data)
 ```
 
 After running this function:
@@ -96,23 +90,12 @@ After running this function:
 Before performing deeper analysis, it is often helpful to understand the structure and quality of the dataset.
 
 ```{python}
-import pandas as pd
+#| eval: false
 from csvplus.generate_report import summary_report
 
-df = pd.DataFrame({
-    'age': [25, 21, 32, None, 40],
-    'city': ['NYC', 'LA', 'NYC', 'SF', 'LA']
-    })
-numeric_stats, categorical_stats = summary_report(df)
+numeric_stats, categorical_stats = summary_report(df_v1)
 
-numeric_stats.loc['age', 'mean']
-numeric_stats.loc['age', 'n_missing']
-numeric_stats.loc['age', 'missing_prop']
-numeric_stats.loc['age', 'ci_lower']
-
-numeric_stats.head()
-categorical_stats.head()
-
+numeric_stats
 ```
 
 The numeric summary includes:
@@ -124,10 +107,8 @@ The numeric summary includes:
 To inspect categorical columns:
 
 ```{python}
-categorical_stats.loc['city', 'n_unique']
-categorical_stats.loc['city', 'n_unique']
-categorical_stats.loc['city', 'top_values']
-categorical_stats.loc['city', 'unique_prop']
+#| eval: false
+categorical_stats
 ```
 
 This makes it easy to identify high-cardinality columns, constant values, and potential data quality issues.

@@ -7,10 +7,14 @@ website:
     background: primary
     search: true
     left:
-      - text: "Home"
+      # - text: "Home"
+      #   file: index.qmd
+      - text: "Tutorial"
         file: index.qmd
       - text: "Reference"
         file: reference/index.qmd
+      - text: "Contributing"
+        file: CONTRIBUTING.md
 
 # tell quarto to read the generated sidebar
 metadata-files:
@@ -31,6 +35,17 @@ quartodoc:
   css: reference/_styles-quartodoc.css
 
   sections:
+    - title: Overview
+      desc: |
+        `csvplus` is a lightweight Python package that provides **practical utilities for loading, 
+        comparing, cleaning, and summarizing tabular data**. While some functions operate directly on 
+        CSV files, others work with **pandas DataFrames**, making `csvplus` easy to integrate into 
+        existing data analysis workflows.
+        
+        It is designed for data scientists, analysts, and students who work with evolving datasets 
+        and want **clear, interpretable insights** into data structure, quality, and change over time.
+      contents: []
+
     - title: Data Loading
       desc: Function for loading a CSV file and return a memory-optimized DataFrame.
       contents:
@@ -40,7 +55,7 @@ quartodoc:
       desc: Function for summarizing structural and statistical differences between two DataFrame versions.
       contents:
         - data_version_diff
-        - data_version_diff.display_data_version_diff
+        # - data_version_diff.display_data_version_diff
     
     - title: Data Cleaning
       desc: Function for resolving inconsistent string values to standardized names using fuzzy matching.

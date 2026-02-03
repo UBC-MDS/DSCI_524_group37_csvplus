@@ -3,7 +3,7 @@ name: ci
 on:
   push:
   pull_request:
-    branches: [main]
+    branches: [main, dev]
   
   workflow_dispatch:
 
@@ -27,9 +27,14 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          pytest --cov --cov-report=term --cov-branch
+          pytest --cov --cov-branch --cov-report=xml
       
       - name: flake8 Lint
         uses: py-actions/flake8@v2
         with:
           max-line-length: "100"
+      
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

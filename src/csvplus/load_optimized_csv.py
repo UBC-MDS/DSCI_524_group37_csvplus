@@ -1,3 +1,6 @@
+"""
+Load a CSV file and return a memory-optimized DataFrame.
+"""
 import pandas as pd
 
 
@@ -13,7 +16,8 @@ def load_optimized_csv(
     **kwargs
 ) -> pd.DataFrame:
     """
-    Load a CSV file and return a memory-optimized DataFrame.
+    Load a CSV as a memory-optimized DataFrame with type downcasting
+    and categorical/sparse conversions.
 
     Automatically determines optimal chunk size based on file size and
     available system memory, then processes each chunk by downcasting
@@ -71,6 +75,7 @@ def load_optimized_csv(
 
     Examples
     --------
+    >>> from csvplus.load_optimized_csv import load_optimized_csv
     >>> df = load_optimized_csv(
     ...     "large_dataset.csv",
     ...     nrows=100000,

@@ -17,10 +17,10 @@ version = "0.2.3"
 
 description = "A better way to read and manipulate data"
 authors = [
-    { name = "Alan Liu" },
-    { name = "Oswin Gan" },
-    { name = "Purity Jangaya" },
-    { name = "Ralah" }
+    { name = "Alan Liu", email = "alnliu2000@gmail.com" },
+    { name = "Oswin Gan", email = "oswin.gan@gmail.com" },
+    { name = "Purity Jangaya", email = "jangayapurity@gmail.com" },
+    { name = "Ralah", email = "ralahaaqil@gmail.com" }
 ]
 license = "MIT"
 requires-python = ">= 3.10" # Adjust based on the minimum version of Python that you support
@@ -63,6 +63,9 @@ dev = [
 
 docs = [
     "quartodoc",
+    "jupyter",
+    "nbformat",
+    "ipykernel",
     "sphinx~=8.0",
     "myst-parser>=4.0",
     "pydata-sphinx-theme~=0.16",

@@ -117,3 +117,18 @@ When opening a Pull Request:
 - Technical decisions are discussed during team meetings or in GitHub Issues
 - If consensus cannot be reached, the team will vote
 - Blocking issues should be raised as early as possible to avoid deadline risk
+
+## Retrospective and Next Steps
+
+Our group used the development tools introduced in DSCI 524, including Python Packages, PyTest, Continuous Integration
+and Deployment, and publishing on PyPI. Flake8 linter was used to maintain code quality.
+
+We followed a GitHub flow workflow, where we listed Issues and created a branch for each issue.
+Each pull request addresses a specific issue and requires a review from at least one other group member before merging.
+
+GitHub was our main form of organization, with Issues used to communicate, report bugs, and keep track of progress.
+For timely responses, we also used Slack as a secondary means of communication.
+
+If we were to scale up our project, we would still used Git version control and CI/CD with trunk-based development.
+External software such as Jira can be used for task management and bug reporting.
+In general, the tools used in this course are well-suited for adaptation at a larger scale.
