@@ -191,10 +191,10 @@ quarto render
 
 ## Contributors
 
-- Alan Liu
-- Oswin Gan
-- Purity Jangaya
-- Ralah Aaqil
+- Alan Liu (alnliu2000@gmail.com)
+- Oswin Gan (oswin.gan@gmail.com)
+- Purity Jangaya (jangayapurity@gmail.com)
+- Ralah Aaqil (ralahaaqil@gmail.com)
 
 ## License
 
