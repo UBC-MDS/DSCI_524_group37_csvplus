@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PR [#114](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/pull/114) to reorganize `README.md` for clarity and usability for both users and developers to address peer review Issue [#103](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/issues/103)
 - PR [#121](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/pull/121) to fix `resolve_string_value()` example in `README.md` to address peer review Issue [#100](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/issues/100)
 - Addressed inconsistencies in test_generate_report.py (#122)
-- PR [#...](url) to add author emails to address peer review Issue [#130](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/issues/130)
+- PR [#131](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/pull/131) to add author emails to address peer review Issue [#130](https://github.com/UBC-MDS/DSCI_524_group37_csvplus/issues/130)
 
 ### Added
 
