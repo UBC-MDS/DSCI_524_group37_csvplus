@@ -216,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-1-efficiently-loading-a-large-csv" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-efficiently-loading-a-large-csv">Step 1: Efficiently Loading a Large CSV</h2>
 <p>Rather than using <code>pandas.read_csv()</code> directly, <strong>csvplus</strong> provides <code>load_optimized_csv()</code> to reduce memory usage automatically.</p>
-<div id="54223870" class="cell" data-execution_count="1">
+<div id="3dc9928c" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.load_optimized_csv <span class="im">import</span> load_optimized_csv</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the first version of the dataset</span></span>
@@ -243,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-2-resolving-inconsistent-string-values" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-resolving-inconsistent-string-values">Step 2: Resolving Inconsistent String Values</h2>
 <p>Text fields such as company names are often inconsistent due to typos or formatting differences. The <code>resolve_string_value()</code> function uses fuzzy matching to standardize values.</p>
-<div id="1f4dbe95" class="cell" data-execution_count="2">
+<div id="7301c0b1" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.data_correction <span class="im">import</span> resolve_string_value</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>resolve_string_value(</span>
@@ -263,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-3-generating-a-data-summary-report" class="level2">
 <h2 class="anchored" data-anchor-id="step-3-generating-a-data-summary-report">Step 3: Generating a Data Summary Report</h2>
 <p>Before performing deeper analysis, it is often helpful to understand the structure and quality of the dataset.</p>
-<div id="b7fb08ab" class="cell" data-execution_count="3">
+<div id="41cc6450" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.generate_report <span class="im">import</span> summary_report</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>numeric_stats, categorical_stats <span class="op">=</span> summary_report(df_v1)</span>
@@ -277,7 +277,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Confidence intervals</li>
 </ul>
 <p>To inspect categorical columns:</p>
-<div id="e19fbf8f" class="cell" data-execution_count="4">
+<div id="e1a5b44f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>categorical_stats</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This makes it easy to identify high-cardinality columns, constant values, and potential data quality issues.</p>
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-4-comparing-dataset-versions" class="level2">
 <h2 class="anchored" data-anchor-id="step-4-comparing-dataset-versions">Step 4: Comparing Dataset Versions</h2>
 <p>A week later, you receive an updated CSV file of the original CSV with potential schema and data changes. At this point, you want to understand <strong>what changed</strong> compared to the original dataset. After loading the dataset, the <code>data_version_diff()</code> function computes a structured comparison between the two DataFrames.</p>
-<div id="82d5c71f" class="cell" data-execution_count="5">
+<div id="14f820c2" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.data_version_diff <span class="im">import</span> data_version_diff</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -341,19 +341,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-5-inspecting-dataframe-changes-programmatically" class="level2">
 <h2 class="anchored" data-anchor-id="step-5-inspecting-dataframe-changes-programmatically">Step 5: Inspecting Dataframe Changes Programmatically</h2>
 <p>You can explore specific components of the diff object directly:</p>
-<div id="48505748" class="cell" data-execution_count="6">
+<div id="b3441a69" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diff[<span class="st">"columns_added"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>['amount', 'category']</code></pre>
 </div>
 </div>
-<div id="40eb8dca" class="cell" data-execution_count="7">
+<div id="a85948f5" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>diff[<span class="st">"row_count_change"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>{'old_row_count': 3, 'new_row_count': 4, 'row_difference': 1}</code></pre>
 </div>
 </div>
-<div id="d825d4cc" class="cell" data-execution_count="8">
+<div id="2a7dde1e" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>diff[<span class="st">"missing_value_changes"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <div>
@@ -390,7 +390,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div id="2abcf292" class="cell" data-execution_count="9">
+<div id="f8930b16" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>diff[<span class="st">"numeric_summary_changes"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <div>
@@ -451,7 +451,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-6-displaying-a-human-readable-report" class="level2">
 <h2 class="anchored" data-anchor-id="step-6-displaying-a-human-readable-report">Step 6: Displaying a Human-Readable Report</h2>
 <p>For interactive use, <strong>csvplus</strong> provides a clean, console-friendly summary of changes in your dataframes from step 5.</p>
-<div id="b29e4d5d" class="cell" data-execution_count="10">
+<div id="485e95fe" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> csvplus.data_version_diff <span class="im">import</span> display_data_version_diff</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>display_data_version_diff(diff)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
